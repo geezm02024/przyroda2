@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Przyroda, klasa 4: Moja okolica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBFCF7; --grid:#D9EBD7; --card:#FFFFFF; --text:#1C2333; --muted:#55607A;
+  --ink:#1D3A8F; --line:#B9C3DA;
+  --pink:rgba(255,79,176,.42); --orange:rgba(255,122,61,.45); --cyan:rgba(44,197,218,.45);
+  --good:#0B7A54; --bad:#C8321A; --pen:#D62828;
+  --hand:'Caveat', 'Comic Sans MS', cursive;
+  --body:'Lexend', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111A2C; --grid:#1B2840; --card:#172238; --text:#E8EDF7; --muted:#A3AFC8;
+    --ink:#A9BEFF; --line:#34446A;
+    --pink:rgba(255,79,176,.38); --orange:rgba(255,122,61,.38); --cyan:rgba(44,197,218,.35);
+    --good:#4FD9A3; --bad:#FF7A61; --pen:#FF6B6B;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111A2C; --grid:#1B2840; --card:#172238; --text:#E8EDF7; --muted:#A3AFC8;
+  --ink:#A9BEFF; --line:#34446A;
+  --pink:rgba(255,79,176,.38); --orange:rgba(255,122,61,.38); --cyan:rgba(44,197,218,.35);
+  --good:#4FD9A3; --bad:#FF7A61; --pen:#FF6B6B;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{
+  margin:0;font-family:var(--body);color:var(--text);font-size:17px;line-height:1.55;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;
+}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:4px}
+.app{max-width:900px;margin:0 auto;padding:20px 16px 60px}
+
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:22px}
+h1{font-family:var(--hand);font-weight:700;font-size:clamp(2.4rem,7vw,3.4rem);line-height:1;margin:0;color:var(--ink)}
+h1 span{background:linear-gradient(transparent 38%,var(--orange) 38% 88%,transparent 88%);padding:0 .15em}
+.sub{margin:6px 0 0;color:var(--muted);font-size:.95rem}
+nav{display:flex;gap:6px}
+nav button{border:2px solid var(--line);background:var(--card);border-radius:999px;padding:8px 18px;cursor:pointer;font-weight:500}
+nav button[aria-current="true"]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+
+/* ---------- NAUKA ---------- */
+.learn{display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:start}
+.toc{display:flex;flex-direction:column;gap:4px;position:sticky;top:calc(12px + env(safe-area-inset-top,0px))}
+.toc button{text-align:left;border:0;background:transparent;padding:8px 10px;border-radius:6px;cursor:pointer;color:var(--text);font-size:.95rem}
+.toc button .n{display:inline-block;width:1.6em;color:var(--muted);font-variant-numeric:tabular-nums}
+.toc button[aria-current="true"]{background:var(--card);box-shadow:inset 3px 0 0 var(--ink);font-weight:600}
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:4px 14px 14px 4px;padding:22px 24px 26px;box-shadow:inset 34px 0 0 -32px var(--pen)}
+.sheet h2{font-family:var(--hand);font-size:2.3rem;line-height:1.1;margin:0 0 14px;color:var(--ink);font-weight:700}
+.sheet h3{font-family:var(--hand);font-size:1.7rem;margin:22px 0 6px;font-weight:700;color:var(--text)}
+.hl-o{background:linear-gradient(transparent 40%,var(--orange) 40% 90%,transparent 90%)}
+.hl-p{background:linear-gradient(transparent 40%,var(--pink) 40% 90%,transparent 90%)}
+.hl-c{background:linear-gradient(transparent 40%,var(--cyan) 40% 90%,transparent 90%)}
+.sheet p{margin:6px 0;max-width:68ch}
+.sheet ul,.sheet ol{margin:6px 0;padding-left:1.3em;max-width:68ch}
+.sheet li{margin:3px 0}
+.def{border-left:4px solid var(--ink);padding:6px 0 6px 14px;margin:10px 0;font-weight:500}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 22px}
+.formula{font-family:var(--hand);font-size:1.6rem;line-height:1.3;margin:10px 0;color:var(--ink)}
+.sheet-actions{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px}
+.compass-learn{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.compass-learn svg{width:min(300px,100%);height:auto}
+.compass-say{font-family:var(--hand);font-size:2rem;color:var(--ink);min-width:12ch}
+
+/* ---------- BUTTONS ---------- */
+.btn{border:2px solid var(--ink);background:var(--ink);color:var(--paper);padding:10px 20px;border-radius:10px;cursor:pointer;font-weight:600}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* ---------- TEST SETUP ---------- */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+.panel h2{font-family:var(--hand);font-size:2.2rem;margin:0 0 6px;color:var(--ink)}
+.field{margin:18px 0}
+.field > .lbl{font-weight:600;margin-bottom:8px;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:2px solid var(--line);background:transparent;border-radius:999px;padding:6px 14px;cursor:pointer;font-size:.93rem}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--pink)}
+.toggle{display:flex;align-items:center;gap:10px;cursor:pointer}
+.toggle input{width:20px;height:20px;accent-color:var(--ink)}
+details{margin-top:18px}
+summary{cursor:pointer;color:var(--muted)}
+.scale{border-collapse:collapse;margin-top:10px;font-size:.95rem}
+.scale td{padding:4px 10px 4px 0}
+.scale input{width:4.2em;padding:3px 6px;border:1px solid var(--line);border-radius:6px;background:var(--paper)}
+.history{margin-top:22px;font-size:.93rem;color:var(--muted)}
+.history ol{padding-left:1.2em;margin:6px 0}
+
+/* ---------- QUIZ ---------- */
+.progress{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:14px}
+.progress i{display:block;height:100%;background:var(--ink);transition:width .25s}
+.qmeta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:.9rem;margin-bottom:6px}
+.qtext{font-size:1.25rem;font-weight:500;margin:4px 0 4px;max-width:60ch}
+.qhint{color:var(--muted);font-size:.9rem;margin:0 0 14px}
+.opts{display:grid;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;text-align:left;border:2px solid var(--line);background:var(--card);border-radius:10px;padding:12px 14px;cursor:pointer;width:100%}
+.opt .box{flex:none;width:24px;height:24px;border:2px solid var(--line);border-radius:6px;display:grid;place-items:center;font-weight:700;font-size:.9rem}
+.opt.round .box{border-radius:50%}
+.opt.sel{border-color:var(--ink);background:var(--pink)}
+.opt.sel .box{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.opt.ok{border-color:var(--good);background:var(--cyan)}
+.opt.no{border-color:var(--bad);background:var(--orange)}
+.opt:disabled{cursor:default}
+.tf{grid-template-columns:1fr 1fr}
+.order li{list-style:none;display:flex;align-items:center;gap:10px;border:2px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px;background:var(--card)}
+.order{padding:0;margin:0}
+.order .pos{font-family:var(--hand);font-size:1.6rem;width:1.2em;text-align:center;color:var(--ink)}
+.order .txt{flex:1}
+.order .mv{display:flex;gap:4px}
+.order .mv button{border:1px solid var(--line);background:transparent;border-radius:6px;width:36px;height:36px;cursor:pointer}
+.order li.ok{border-color:var(--good);background:var(--cyan)}
+.order li.no{border-color:var(--bad);background:var(--orange)}
+.num{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.num input{width:8em;padding:10px 12px;font-size:1.3rem;border:2px solid var(--line);border-radius:10px;background:var(--card)}
+.num input.ok{border-color:var(--good);background:var(--cyan)}
+.num input.no{border-color:var(--bad);background:var(--orange)}
+.compass-q svg{width:min(340px,100%);height:auto;display:block;margin:0 auto}
+.cdir{cursor:pointer}
+.cdir circle{fill:var(--card);stroke:var(--line);stroke-width:2}
+.cdir text{font-family:var(--body);font-weight:600;font-size:15px;fill:var(--text);pointer-events:none}
+.cdir:hover circle,.cdir:focus circle{stroke:var(--ink)}
+.cdir:focus{outline:none}
+.cdir.sel circle{fill:var(--pink);stroke:var(--ink);stroke-width:3}
+.cdir.ok circle{fill:var(--cyan);stroke:var(--good);stroke-width:3}
+.cdir.no circle{fill:var(--orange);stroke:var(--bad);stroke-width:3}
+.feedback{margin-top:16px;padding:12px 14px;border-radius:10px;border:2px solid}
+.feedback.ok{border-color:var(--good)}
+.feedback.half{border-color:var(--ink)}
+.feedback.no{border-color:var(--bad)}
+.feedback b{display:block;margin-bottom:2px}
+.qactions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+
+/* ---------- RESULTS ---------- */
+.result-top{display:flex;flex-wrap:wrap;align-items:center;gap:20px 30px}
+.grade{position:relative;width:150px;height:150px;flex:none}
+.grade svg{position:absolute;inset:0;width:100%;height:100%}
+.grade .digit{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--hand);font-weight:700;font-size:6rem;line-height:1;color:var(--pen)}
+.grade path{fill:none;stroke:var(--pen);stroke-width:4;stroke-linecap:round;stroke-dasharray:620;stroke-dashoffset:620;animation:draw 1s .2s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.gname{font-family:var(--hand);font-size:2.4rem;line-height:1;color:var(--ink);margin:0}
+.gsum{margin:6px 0 0;font-size:1.1rem}
+.gmsg{color:var(--muted);margin:4px 0 0}
+.review{margin-top:26px;padding:0;list-style:none}
+.review li{border-top:1px solid var(--line);padding:14px 0}
+.review .mark{font-weight:700;margin-right:6px}
+.review .mark.ok{color:var(--good)}.review .mark.no{color:var(--bad)}.review .mark.half{color:var(--ink)}
+.review .row{font-size:.95rem;margin:3px 0 0}
+.review .why{color:var(--muted);font-size:.92rem;margin-top:4px}
+.res-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+
+/* sort + tree */
+.sort{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.sort li{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;border:2px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--card)}
+.sort li.ok{border-color:var(--good)}.sort li.no{border-color:var(--bad)}
+.sort .txt{font-weight:500}
+.sort .cats{display:flex;flex-wrap:wrap;gap:6px}
+.cat{border:2px solid var(--line);background:transparent;border-radius:999px;padding:5px 12px;cursor:pointer;font-size:.88rem}
+.cat.sel{border-color:var(--ink);background:var(--pink)}
+.cat.ok{border-color:var(--good);background:var(--cyan)}
+.cat.no{border-color:var(--bad);background:var(--orange)}
+.cat:disabled{cursor:default}
+svg.tree{width:100%;max-width:560px;height:auto;display:block;margin:6px auto}
+svg.tree .tn{font-family:var(--body);font-weight:600;font-size:15px;fill:var(--text)}
+svg.tree .tr{font-family:var(--body);font-size:11.5px;fill:var(--muted)}
+.tree-learn .tp{cursor:pointer}
+.tree-learn .tp:focus{outline:none}
+.tree-learn .tp:focus rect{stroke-width:3}
+.tree-q{margin-bottom:12px}
+@media (max-width:720px){
+  .learn{grid-template-columns:1fr}
+  .toc{position:static;flex-direction:row;overflow-x:auto;padding-bottom:6px}
+  .toc button{white-space:nowrap}
+  .sheet{padding:18px 16px 22px}
+  .panel{padding:18px 16px}
+  .tf{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .grade path{animation:none;stroke-dashoffset:0}
+  .progress i{transition:none}
+}
+
+/* ---------- PRZYRODA: MOJA OKOLICA ---------- */
+.learn>*{min-width:0}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:14px}
+.day{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.day.today{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.day .dn{font-family:var(--hand);font-size:1.9rem;line-height:1;color:var(--ink);display:flex;justify-content:space-between;align-items:baseline}
+.day .done{font-family:var(--hand);font-size:1.9rem;color:var(--pen);border:2px solid var(--pen);border-radius:50%;width:1.3em;height:1.3em;display:inline-grid;place-items:center;line-height:1}
+.day .what{font-size:.95rem}
+.day .row{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px}
+.tl{font-size:.88rem;color:var(--muted)}
+.btn.small{padding:7px 14px;font-size:.93rem}
+.muted{color:var(--muted)}
+.weak{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:8px}
+.weak li{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.src{margin:0 0 4px!important;font-size:.85rem;color:var(--muted)}
+.trap{border:2px dashed var(--pen);border-radius:10px;padding:8px 12px;margin:12px 0!important}
+.say{font-family:var(--hand);font-size:1.7rem;color:var(--ink);min-height:1.4em;margin:4px 0 8px!important}
+.tbl{border-collapse:collapse;width:100%;margin:10px 0;font-size:.93rem}
+.tbl th,.tbl td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.tbl thead th{background:var(--grid)}
+.tbl-wrap{overflow-x:auto}
+ol.stages{list-style:none;padding:0!important;display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;counter-reset:st;max-width:none!important}
+ol.stages li{counter-increment:st;border:2px solid var(--line);border-radius:10px;padding:10px 12px;position:relative;margin:0!important}
+ol.stages li::before{content:counter(st);font-family:var(--hand);font-size:1.8rem;color:var(--pen);line-height:1;display:block}
+ol.stages li span{display:block;font-size:.88rem;color:var(--muted);margin-top:2px}
+svg.dia{width:100%;max-width:620px;height:auto;display:block}
+.hot-q svg.dia,.dia-learn svg.dia{margin:8px auto}
+.hz{cursor:pointer}
+.hz circle{fill:var(--card);stroke:var(--ink);stroke-width:3}
+.hz:hover circle,.hz:focus circle{fill:var(--cyan)}
+.hz:focus{outline:none}
+.hz.sel circle{fill:var(--ink)}
+.hz.sel .hzq{fill:var(--paper)}
+.hz.ok circle{fill:var(--good);stroke:var(--good)}
+.hz.no circle{fill:var(--bad);stroke:var(--bad)}
+.hz.soil rect{stroke:transparent;stroke-width:5}
+.hz.soil:hover rect,.hz.soil:focus rect{stroke:var(--cyan)}
+.hz.soil.sel rect{stroke:var(--ink)}
+.hz.soil.ok rect{stroke:var(--good)}
+.hz.soil.no rect{stroke:var(--bad)}
+.hzq{font:700 18px var(--body);fill:var(--ink);text-anchor:middle;pointer-events:none}
+.hzq.light{fill:#fff;font-size:24px}
+.hzl{font:600 19px var(--body);fill:var(--text)}
+.hzs{font:italic 16px var(--body);fill:var(--muted)}
+.qlabel{margin:0 0 8px;font-size:.9rem;color:var(--muted);font-weight:600}
+.per{list-style:none;padding:0;margin:14px 0;display:grid;gap:6px}
+.per li{display:grid;grid-template-columns:minmax(0,1fr) 120px 3.5em;gap:10px;align-items:center;font-size:.92rem}
+.per .bar{height:10px;border-radius:5px;background:var(--grid);overflow:hidden}
+.per .bar i{display:block;height:100%;background:var(--ink)}
+@media (max-width:720px){.per li{grid-template-columns:minmax(0,1fr) 70px 3.2em}.hzl{font-size:26px}.hz circle{r:24px}.hzq{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div>
+      <h1><span>Przyroda: Moja okolica</span></h1>
+      <p class="sub">Klasa 4, dział II (podręcznik s. 54–90) – 7 dni przygotowań do sprawdzianu</p>
+    </div>
+    <nav>
+      <button id="tab-plan" aria-current="true">Plan</button>
+      <button id="tab-learn" aria-current="false">Nauka</button>
+      <button id="tab-test" aria-current="false">Test</button>
+    </nav>
+  </header>
+  <main id="main"></main>
+</div>
+
+<script>
+/* ================= POMOCNICZE ================= */
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function R(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function fmt(n){return String(Math.round(n*10)/10).replace('.',',')}
+function store(k,v){try{if(v===undefined){const r=localStorage.getItem(k);return r?JSON.parse(r):null}localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+
+/* ================= RYSUNKI ================= */
+const TER_Z={szczyt:{x:190,y:62,n:'szczyt',lx:190,ly:30,a:'middle'},stok:{x:124,y:142,n:'stok',lx:96,ly:132,a:'end'},podnoze:{x:62,y:220,n:'podnóże',lx:62,ly:252,a:'middle'},
+  zbocze:{x:468,y:206,n:'zbocze doliny',lx:500,ly:166,a:'start'},dno:{x:404,y:234,n:'dno doliny',lx:404,ly:276,a:'middle'}};
+function terrainSVG({labels=true,states={}}={}){
+  let s=`<svg class="dia" viewBox="0 0 640 288" role="group" aria-label="Przekrój terenu: wzniesienie i dolina">`;
+  s+=`<polygon points="0,220 62,220 190,62 322,200 380,234 430,234 500,180 640,180 640,288 0,288" fill="#8DBF6A" stroke="#4E7A33" stroke-width="2.5"/>`;
+  s+=`<polygon points="160,98 190,62 222,102 205,96 190,108 175,96" fill="#F4F4F2" opacity=".9"/>`;
+  s+=`<path d="M384,236 Q405,229 426,236" stroke="#3B8BD4" stroke-width="7" fill="none" stroke-linecap="round"/>`;
+  Object.entries(TER_Z).forEach(([k,z],i)=>{const st=states[k]||'';
+    s+=`<g class="hz ${st}" data-k="${k}" tabindex="0" role="button" aria-label="${labels?z.n:'miejsce '+(i+1)}"><circle cx="${z.x}" cy="${z.y}" r="15"/>`;
+    s+=`<text class="hzq" x="${z.x}" y="${z.y+5}">${labels?'':'?'}</text></g>`;
+    if(labels)s+=`<text class="hzl" x="${z.lx}" y="${z.ly}" text-anchor="${z.a}">${z.n}</text>`});
+  if(labels)s+=`<text class="hzs" x="190" y="200" text-anchor="middle">wzniesienie</text><text class="hzs" x="560" y="210" text-anchor="middle">równina</text>`;
+  return s+'</svg>';
+}
+const SOIL_Z={prochniczny:{y:62,h:78,n:'poziom próchniczny',fill:'#3A2A1E'},glebsze:{y:140,h:110,n:'głębsze poziomy glebowe',fill:'#A3622F'},skala:{y:250,h:70,n:'skała',fill:'#A9A69C'}};
+function soilSVG({labels=true,states={}}={}){
+  let s=`<svg class="dia" viewBox="0 0 640 330" role="group" aria-label="Przekrój gleby">`;
+  s+=`<rect x="110" y="44" width="230" height="18" fill="#6BAA3F"/>`;
+  for(let i=0;i<20;i++){const x=114+i*11.5;s+=`<path d="M${x},44 l3,-14 l3,14" fill="#5C9A33"/>`}
+  Object.entries(SOIL_Z).forEach(([k,z],i)=>{const st=states[k]||'';
+    s+=`<g class="hz soil ${st}" data-k="${k}" tabindex="0" role="button" aria-label="${labels?z.n:'warstwa '+(i+1)}"><rect x="110" y="${z.y}" width="230" height="${z.h}" fill="${z.fill}"/>`;
+    if(!labels)s+=`<text class="hzq light" x="225" y="${z.y+z.h/2+6}">?</text>`;
+    s+=`</g>`;
+    if(labels)s+=`<line x1="346" y1="${z.y+z.h/2}" x2="366" y2="${z.y+z.h/2}" stroke="var(--muted)" stroke-width="1.5"/><text class="hzl" x="372" y="${z.y+z.h/2+5}" text-anchor="start">${z.n}</text>`});
+  [[135,272],[182,290],[250,268],[305,300],[160,305],[220,296]].forEach(([x,y])=>s+=`<ellipse cx="${x}" cy="${y}" rx="11" ry="7" fill="#8C897F" pointer-events="none"/>`);
+  [[140,70,120],[180,66,100],[250,68,130],[300,70,95]].forEach(([x,y1,y2])=>s+=`<path d="M${x},${y1} q6,${(y2-y1)/2} -2,${y2-y1}" stroke="#E9DCC6" stroke-width="2" fill="none" pointer-events="none"/>`);
+  return s+'</svg>';
+}
+const HOT={teren:{svg:terrainSVG,Z:TER_Z},gleba:{svg:soilSVG,Z:SOIL_Z}};
+
+/* ================= DANE ================= */
+const TOPICS=[
+ {id:'krajobraz',name:'Krajobraz mojej okolicy',src:'podręcznik s. 54–58'},
+ {id:'teren',name:'Ukształtowanie terenu',src:'podręcznik s. 59–63'},
+ {id:'skaly',name:'Rozpoznaję skały',src:'podręcznik s. 64–68'},
+ {id:'gleba',name:'Co kryje gleba?',src:'podręcznik s. 69–72'},
+ {id:'badania',name:'Gleba w mojej okolicy',src:'podręcznik s. 73–78'},
+ {id:'zywe',name:'Rośliny i zwierzęta w okolicy',src:'podręcznik s. 79–84'},
+];
+const topicName=id=>TOPICS.find(t=>t.id===id).name;
+
+const ROCKS={
+ piasek:{g:'luźne',d:['Jasna skała z osobnych ziarenek, które przesypują się przez palce.','Luźna skała – woda nie rozmywa ziarenek, ale łatwo między nimi przepływa. Pojedyncze ziarenka są bardzo twarde.']},
+ 'żwir':{g:'luźne',d:['Luźna skała o ziarnach większych od ziaren piasku, różnej barwy.','Skała luźna z twardych ziaren większych niż ziarna piasku; woda łatwo między nimi przepływa.']},
+ less:{g:'zwięzłe',d:['Żółtawa lub jasnobrunatna, miękka skała zwięzła. Woda łatwo ją rozmywa.','Skała zwięzła, która w suchym stanie łatwo się rozsypuje; jest żółtawa lub jasnobrunatna.']},
+ glina:{g:'zwięzłe',d:['Najczęściej brązowa skała. Gdy jest wilgotna, można ją ugniatać i lepić z niej kulki.','Miękka, brązowa skała zwięzła, łatwa do ugniecenia; woda łatwo ją rozmywa. Wypalona daje cegłę.']},
+ 'węgiel':{g:'lite',d:['Czarna lub czarnoszara skała z połyskiem. Jest lita, ale dość krucha i łatwo ją zarysować.','Czarna, lśniąca skała lita. Nie rozmywa się, ale może nasiąkać wodą.']},
+ piaskowiec:{g:'lite',d:['Lita skała z ziaren piasku sklejonych ze sobą, najczęściej żółta, czerwona lub szara.','Często twarda skała lita z posklejanych ziaren piasku, odporna na wodę.']},
+ 'wapień':{g:'lite',d:['Jasna skała lita – biała, kremowa lub szara. Po polaniu octem widać pianę.','Średnio twarda, jasna skała lita. Rozpuszcza się w wodzie, ale bardzo wolno; z octem się pieni.']},
+ granit:{g:'lite',d:['Bardzo twarda skała lita, szara lub różowawa, z widocznymi ziarnami minerałów w różnych kolorach.','Skała lita bardzo trudna do zarysowania, bardzo odporna na wodę, z widocznymi ziarenkami minerałów.']},
+};
+const PLANTS={
+ 'lipa drobnolistna':['owoce kuliste, twarde, ze skrzydełkami','liście w kształcie serca','gruby pień i okazała korona'],
+ 'brzoza brodawkowata':['liście małe, trójkątne','na pniu biała kora z czarnymi plamkami','długie, cienkie, zwisające gałęzie'],
+ 'śnieguliczka biała':['owoce kuliste, białe, utrzymują się przez całą zimę','liście okrągławe, drobne'],
+ 'róża dzika':['owoce jajowate, ciemnoczerwone','łodygi z kolcami','pachnące, różowe lub białe kwiaty'],
+ 'koniczyna biała':['liście złożone z trzech części','białe kwiaty','niska, rozgałęziająca się łodyga'],
+ 'babka lancetowata':['owoce zebrane w kłos na długiej bezlistnej łodydze','liście podłużne, wyrastają przy ziemi'],
+};
+const BIRDS={
+ gawron:['pióra czarne o fioletowym połysku','głowa wypukła','wokół dzioba jasna plama bez piór'],
+ kawka:['pióra czarne i szare','duża głowa o siwym tyle i bokach','dziób i ogon krótkie'],
+ sroka:['pióra czarne i białe','bardzo długi czarny ogon','skrzydła i ogon z metalicznym połyskiem'],
+ szpak:['pióra czarne z białymi plamkami, z metalicznym połyskiem','ostry żółty dziób'],
+ 'kos (samiec)':['pióra czarne, bez plamek','żółty dziób','żółta obwódka wokół oczu'],
+ wrona:['głowa i skrzydła czarne, a tułów szary','czarny, masywny dziób'],
+};
+const INSECTS={
+ 'skorek pospolity (szczypawka)':['ciało długie i wąskie, zakończone szczypcami','ciało brązowe, odnóża żółte'],
+ 'biedronka siedmiokropka':['przednia część ciała czarna z białymi plamkami','na czerwonych skrzydłach siedem czarnych kropek'],
+ 'rusałka pokrzywnik':['skrzydła pomarańczowe, a na ich końcach czarne i niebieskie plamki','na przednich skrzydłach czarne i żółte plamy'],
+};
+function guess(map,label){const names=Object.keys(map),n=pick(names),f=map[n];const two=shuffle(f).slice(0,Math.min(2,f.length));
+  return {t:'single',q:`${label}: ${two.join('; ')}. Co to jest?`,opts:[n,...shuffle(names.filter(x=>x!==n)).slice(0,3)],why:`To ${n}: ${f.join('; ')}.`}}
+function sortFrom(groups,per,q,why){const cats=Object.keys(groups),items=[];cats.forEach((c,ci)=>shuffle(groups[c]).slice(0,per).forEach(x=>items.push({x,c:ci})));return {t:'sort',q,cats,items:shuffle(items),why}}
+
+const BANK=[
+ /* ---------- KRAJOBRAZ ---------- */
+ {topic:'krajobraz',t:'single',q:'Krajobraz to…',opts:['wszystkie elementy przyrody i elementy stworzone przez człowieka, które widzimy wokół siebie','tylko elementy przyrody, np. rośliny i zwierzęta','tylko budynki, drogi i mosty','to samo co pogoda'],why:'Krajobraz tworzą elementy przyrody i elementy stworzone przez człowieka, które widzimy wokół siebie.'},
+ {topic:'krajobraz',t:'tf',q:'Krajobraz to dokładnie to samo co przyroda.',a:false,why:'Nie – w krajobrazie są też elementy stworzone przez człowieka, np. budynki, mosty i drogi.'},
+ {topic:'krajobraz',t:'gen',make(){return sortFrom({'element przyrody':['skały','gleba','rzeka','jezioro','rośliny','zwierzęta'],'stworzony przez człowieka':['budynki','most','droga','fabryka','słupy','ogrodzenie']},3,'Przypisz każdy element krajobrazu do właściwej grupy.','Elementy przyrody: skały, gleba, rzeki i jeziora, rośliny, zwierzęta. Stworzone przez człowieka: budynki, mosty, drogi, fabryki, słupy i ogrodzenia.')}},
+ {topic:'krajobraz',t:'single',q:'Krajobraz naturalny to taki, który człowiek…',opts:['zmienił w niewielkim stopniu','bardzo zmienił i stworzył w nim wiele nowych elementów','całkowicie zabudował','zmienił w pola i sady'],why:'Krajobraz naturalny człowiek zmienił w niewielkim stopniu, np. krajobraz wysokich gór.'},
+ {topic:'krajobraz',t:'single',q:'Który krajobraz jest przykładem krajobrazu naturalnego?',opts:['krajobraz wysokich gór','krajobraz miasta','krajobraz wsi','osiedle wysokich bloków'],why:'Krajobraz wysokich gór człowiek zmienił w niewielkim stopniu – to krajobraz naturalny.'},
+ {topic:'krajobraz',t:'tf',q:'Krajobrazy wsi i miasta to krajobrazy stworzone przez człowieka.',a:true,why:'Tak – człowiek bardzo je zmienił i stworzył w nich wiele nowych elementów.'},
+ {topic:'krajobraz',t:'gen',make(){return sortFrom({'krajobraz wsi':['niskie, oddalone od siebie budynki','pojedyncze drogi, wąskie ścieżki','pola, sady, łąki i pastwiska','zwierzęta gospodarskie, np. krowy'],'krajobraz miasta':['wysokie budynki blisko siebie','wiele asfaltowych ulic, place i rynki','osiedla wysokich bloków','biurowce, muzea i fabryki']},3,'Wieś czy miasto? Przypisz każdą cechę do właściwego krajobrazu.','Wieś: niskie budynki, mało dróg, pola, sady, łąki, pastwiska. Miasto: wysokie budynki blisko siebie, dużo ulic, place, osiedla bloków.')}},
+ {topic:'krajobraz',t:'single',q:'Które elementy są charakterystyczne dla krajobrazu wsi?',opts:['niskie domy','dużo dróg','osiedla wysokich bloków','wysokie góry i skały'],why:'W krajobrazie wsi budynki są niskie, a dróg jest niewiele.'},
+ {topic:'krajobraz',t:'single',q:'Które elementy są charakterystyczne dla krajobrazu miasta?',opts:['osiedla wysokich bloków','mało dróg','pojedyncze domy','budynki gospodarcze'],why:'W mieście są wysokie budynki blisko siebie, np. osiedla bloków, i wiele dróg.'},
+ {topic:'krajobraz',t:'single',q:'Krajobraz wsi powstał głównie dzięki…',opts:['uprawie ziemi i hodowli zwierząt','budowie fabryk i biurowców','uderzeniom meteorytów','wycinaniu parków'],why:'Krajobraz wsi jest efektem działalności rolniczej – pracy ludzi, którzy uprawiają ziemię i hodują zwierzęta.'},
+ {topic:'krajobraz',t:'tf',q:'Krajobraz wsi coraz częściej zmienia się przez turystykę – pojawiają się hotele i ścieżki rowerowe.',a:true,why:'Tak, tak napisano w podręczniku.'},
+ {topic:'krajobraz',t:'tf',q:'Parki i skwery w mieście są dziełem człowieka, choć z pozoru wyglądają jak lasy.',a:true,why:'Tak – w mieście nawet parki i skwery stworzyli ludzie.'},
+ {topic:'krajobraz',t:'single',q:'W krajobrazie miasta elementy stworzone przez człowieka…',opts:['przesłaniają przyrodę','prawie nie występują','są tylko na obrzeżach','są niższe niż na wsi'],why:'W mieście elementy stworzone przez człowieka przesłaniają przyrodę.'},
+ {topic:'krajobraz',t:'single',q:'Dlaczego nad rzekami powstało wiele miast?',opts:['bo woda z rzek jest potrzebna ludziom do picia','bo nad rzekami nie ma zwierząt','bo rzeki chronią przed wiatrem','bo nad rzekami jest najwięcej skał'],why:'Woda z rzek jest potrzebna ludziom do picia – dlatego nad rzekami powstało wiele miast.'},
+ {topic:'krajobraz',t:'single',q:'Co może się stać z leśnymi zwierzętami, gdy ludzie wytną las?',opts:['stracą schronienie i miejsce, gdzie znajdują pożywienie','nic się nie zmieni','będą miały więcej pożywienia','zamienią się w zwierzęta gospodarskie'],why:'Las jest schronieniem dla zwierząt i miejscem, gdzie znajdują pożywienie.'},
+ {topic:'krajobraz',t:'single',q:'Co ludzie najczęściej tworzą w miejscu wyciętych lasów?',opts:['pola, łąki i pastwiska','jeziora','góry','kotliny'],why:'Ludzie wycinają lasy i w ich miejsce tworzą pola, łąki i pastwiska.'},
+ {topic:'krajobraz',t:'tf',q:'Jeśli zmieni się jeden element krajobrazu, pozostałe także ulegną zmianie.',a:true,why:'Tak – w krajobrazie wszystkie elementy są ze sobą powiązane i zależą od siebie.'},
+ {topic:'krajobraz',t:'single',q:'Maja mieszka w dużym mieście. Gdzie może obserwować przyrodę ożywioną bez wyjeżdżania z miasta?',opts:['w parku','na rynku starego miasta','na parkingu przed sklepem','na skrzyżowaniu ulic'],why:'W parku rosną drzewa i krzewy, żyją ptaki i owady.'},
+
+ /* ---------- TEREN ---------- */
+ {topic:'teren',t:'single',q:'Ukształtowanie terenu to…',opts:['wszystkie płaskie powierzchnie i nierówności powierzchni Ziemi','tylko góry','rodzaje skał w okolicy','warstwy gleby'],why:'Wszystkie płaskie powierzchnie i nierówności tworzą ukształtowanie terenu. Jest ono elementem krajobrazu.'},
+ {topic:'teren',t:'tf',q:'Ukształtowanie terenu jest elementem krajobrazu.',a:true,why:'Tak – tak samo jak rośliny, wody czy budynki.'},
+ {topic:'teren',t:'gen',make(){const v=pick(['p','w','g']);const h=v==='p'?R(8,45):v==='w'?pick([R(60,140),R(150,290)]):pick([R(320,900),R(1000,2400)]);const ok=v==='p'?'pagórek':v==='w'?'wzgórze':'góra';
+   return {t:'single',q:`Wzniesienie ma ${h} metrów wysokości. Jak się nazywa ta forma terenu?`,opts:[ok,...['pagórek','wzgórze','góra'].filter(x=>x!==ok),'kotlina'],why:`Pagórek ma do 50 m, wzgórze od 50 do 300 m, a góra ponad 300 m wysokości. ${h} m → ${ok}.`}}},
+ {topic:'teren',t:'gen',make(){return {t:'sort',q:'Przypisz formy terenu do właściwej grupy.',cats:['wypukłe (wzniesienia)','wklęsłe (zagłębienia)','płaskie'],items:shuffle([{x:'góra',c:0},{x:'wzgórze',c:0},{x:'pagórek',c:0},{x:'dolina',c:1},{x:'kotlina',c:1},{x:'równina',c:2}]),why:'Wzniesienia: góry, wzgórza, pagórki. Zagłębienia: doliny i kotliny. Płaskie: równiny.'}}},
+ {topic:'teren',t:'gen',make(){const D=[['szczyt','najwyższe miejsce wzniesienia'],['stok','pochyły bok wzniesienia'],['podnóże','podstawa, od której mierzymy wysokość wzniesienia'],['zbocze','nachylony bok doliny'],['dno doliny','najniższa część doliny – czasem płynie nią rzeka']];const [n,d]=pick(D);
+   return {t:'single',q:`Który element formy terenu opisano: „${d}”?`,opts:[n,...shuffle(D.map(x=>x[0]).filter(x=>x!==n)).slice(0,3)],why:`${cap(n)} to ${d}. Pamiętaj: wzniesienie ma szczyt, stok i podnóże, a zagłębienie – zbocze i dno.`}}},
+ {topic:'teren',t:'gen',make(){const k=pick(Object.keys(TER_Z));return {t:'hot',hot:'teren',target:k,q:`Kliknij na rysunku miejsce, które nazywamy: ${TER_Z[k].n}.`,why:`Wzniesienie ma szczyt (na górze), stok (pochyły bok) i podnóże (na dole). Dolina ma zbocza i dno, którym często płynie rzeka.`}}},
+ {topic:'teren',t:'gen',make(){const k=pick(Object.keys(TER_Z));return {t:'hot',hot:'teren',target:k,q:`Kliknij na rysunku miejsce, które nazywamy: ${TER_Z[k].n}.`,why:`Wzniesienie ma szczyt (na górze), stok (pochyły bok) i podnóże (na dole). Dolina ma zbocza i dno, którym często płynie rzeka.`}}},
+ {topic:'teren',t:'multi',q:'Zaznacz elementy, które ma każde wzniesienie.',ok:['szczyt','stok','podnóże'],no:['dno','zbocze doliny'],why:'Każde wzniesienie ma szczyt, stok i podnóże. Dno i zbocza mają zagłębienia.'},
+ {topic:'teren',t:'single',q:'Dolina to…',opts:['długie (wydłużone) zagłębienie terenu','zagłębienie o zaokrąglonym kształcie','płaski lub lekko falisty teren','niewysokie wzniesienie'],why:'Dolina to długie zagłębienie terenu. Zagłębienie o zaokrąglonym kształcie to kotlina.'},
+ {topic:'teren',t:'single',q:'Kotlina oglądana z lotu ptaka ma kształt…',opts:['bardziej zaokrąglony niż dolina','długi i wąski jak dolina','spiczasty jak szczyt','zupełnie płaski jak równina'],why:'Kotlina ma kształt bardziej zaokrąglony niż dolina. Prawie ze wszystkich stron otacza ją teren położony wyżej.'},
+ {topic:'teren',t:'single',q:'Równina to…',opts:['płaski lub lekko falisty teren','teren bardzo nachylony','zagłębienie z rzeką','wzniesienie ponad 300 m'],why:'Równina to płaski lub lekko falisty teren – doskonałe miejsce pod budowę miast, wsi, dróg i uprawę ziemi.'},
+ {topic:'teren',t:'single',q:'W którym miejscu teren jest najbardziej nachylony?',opts:['na stoku góry','na równinie','na dnie doliny','na szczycie góry'],why:'Stok to pochyły bok wzniesienia. Na stokach gór trudno budować domy i uprawiać ziemię.'},
+ {topic:'teren',t:'single',q:'Gdzie najłatwiej zbudować miasto i drogi oraz uprawiać ziemię?',opts:['na równinie','na stoku góry','w głębokiej, wąskiej dolinie','na szczycie góry'],why:'Równina to doskonałe miejsce pod budowę miast, wsi, dróg oraz uprawę ziemi.'},
+ {topic:'teren',t:'single',q:'Dlaczego nad głębokimi dolinami ludzie budują mosty i wiadukty?',opts:['bo wąskie i głębokie doliny są przeszkodą trudną do pokonania','bo w dolinach nie ma rzek','bo doliny są najwyższym miejscem w okolicy','bo tak jest ładniej'],why:'Wąskie i głębokie doliny stają się przeszkodą trudną do pokonania, dlatego ludzie budują nad nimi mosty i wiadukty.'},
+ {topic:'teren',t:'tf',q:'Wyrównane dno kotliny jest dobrym miejscem do budowy miast, wsi i dróg.',a:true,why:'Tak napisano w podręczniku przy opisie kotliny.'},
+ {topic:'teren',t:'tf',q:'Na stokach gór łatwo buduje się domy i uprawia ziemię.',a:false,why:'Na stokach gór trudno budować domy i uprawiać ziemię, bo teren jest bardzo nachylony.'},
+ {topic:'teren',t:'order',q:'Bartek wjechał rowerem na najwyższe miejsce w okolicy, zjechał z niego około 100 m w dół, jechał po płaskim terenie, a na koniec zjechał zboczem nad rzekę. Ułóż formy terenu w kolejności jego trasy.',items:['wzgórze','równina','dolina'],why:'Najpierw wzgórze (ok. 100 m wysokości, czyli między 50 a 300 m), potem płaska równina, na końcu zbocze doliny z rzeką.'},
+ {topic:'teren',t:'single',q:'Jak nazywamy kotliny, które powstały po uderzeniu meteorytu w Ziemię?',opts:['kratery meteorytowe','doliny rzeczne','pagórki kosmiczne','równiny'],why:'Kotliny pochodzenia kosmicznego to kratery meteorytowe. Mogą mieć nawet 200 metrów głębokości.'},
+
+ /* ---------- SKAŁY ---------- */
+ {topic:'skaly',t:'single',q:'Skała to…',opts:['naturalny materiał budujący powierzchnię Ziemi','materiał zrobiony przez człowieka, np. cegła','warstwa gleby z próchnicą','każdy twardy przedmiot'],why:'Skała to naturalny materiał budujący powierzchnię Ziemi. Tworzą ją minerały.'},
+ {topic:'skaly',t:'single',q:'Jak nazywają się składniki, które tworzą skały?',opts:['minerały','próchnica','korzenie','kryształki lodu'],why:'Skały tworzą minerały – są jak składniki ciasta. Można je zobaczyć gołym okiem albo pod lupą.'},
+ {topic:'skaly',t:'multi',q:'Zaznacz cztery cechy skał, które badamy.',ok:['barwa','spójność','twardość','odporność na działanie wody'],no:['zapach','wiek'],why:'Najważniejsze cechy skał to: barwa, spójność, twardość i odporność na działanie wody.'},
+ {topic:'skaly',t:'tf',q:'Skały tworzą także dno mórz i oceanów.',a:true,why:'Tak – skały pokrywają całą lądową powierzchnię Ziemi i tworzą dno mórz i oceanów.'},
+ {topic:'skaly',t:'tf',q:'Piasek na plaży to też skała.',a:true,why:'Tak – piasek to skała luźna.'},
+ {topic:'skaly',t:'tf',q:'Beton, pustaki i cegły są skałami.',a:false,why:'Nie – zrobił je człowiek. Skała to materiał naturalny.'},
+ {topic:'skaly',t:'gen',make(){const G={'luźne':['piasek','żwir'],'zwięzłe':['less','glina'],'lite':['węgiel','piaskowiec','wapień','granit']};return sortFrom(G,2,'Przypisz skały do właściwej grupy.','Luźne: piasek, żwir. Zwięzłe: less, glina. Lite: węgiel, piaskowiec, wapień, granit.')}},
+ {topic:'skaly',t:'gen',make(){const n=pick(Object.keys(ROCKS));return {t:'single',q:`Janek znalazł skałę: „${pick(ROCKS[n].d)}” Jak nazywa się ta skała?`,opts:[n,...shuffle(Object.keys(ROCKS).filter(x=>x!==n)).slice(0,3)],why:`To ${n} – skała ${ROCKS[n].g}. ${ROCKS[n].d[0]}`}}},
+ {topic:'skaly',t:'gen',make(){const n=pick(Object.keys(ROCKS));return {t:'single',q:`Janek znalazł skałę: „${pick(ROCKS[n].d)}” Jak nazywa się ta skała?`,opts:[n,...shuffle(Object.keys(ROCKS).filter(x=>x!==n)).slice(0,3)],why:`To ${n} – skała ${ROCKS[n].g}. ${ROCKS[n].d[0]}`}}},
+ {topic:'skaly',t:'single',q:'Po polaniu której skały octem widać pianę?',opts:['wapienia','granitu','węgla','piasku'],why:'Ocet pieni się w kontakcie z wapieniem.'},
+ {topic:'skaly',t:'single',q:'W której skale litej dobrze widać minerały w różnych kolorach?',opts:['w granicie','w węglu','w wapieniu','w piaskowcu'],why:'Granit ma widoczne ziarna minerałów – jest szary lub różowawy.'},
+ {topic:'skaly',t:'single',q:'Która skała najlepiej nadaje się na blat kuchenny?',opts:['granit','glina','węgiel','piasek'],why:'Granit jest bardzo twardy, trudno go zarysować i jest bardzo odporny na wodę.'},
+ {topic:'skaly',t:'single',q:'Skały luźne (sypkie)…',opts:['składają się z odrębnych, niepołączonych ziaren – nawet mokre nie dadzą trwałej kulki','gdy są wilgotne, stają się plastyczne','są twarde i nie można ich rozkruszyć w dłoni','pienią się po polaniu octem'],why:'Skały luźne, np. piasek i żwir, to osobne ziarna – nie ulepisz z nich trwałej kulki.'},
+ {topic:'skaly',t:'single',q:'Skały zwięzłe…',opts:['suche są twarde, ale da się je pokruszyć w dłoniach; wilgotne stają się plastyczne','składają się z osobnych ziarenek, które się przesypują','są bardzo twarde i nie rozmiękczy ich woda','zawsze są czarne'],why:'Skały zwięzłe to less i glina. Wilgotne można ugniatać, a w wodzie się rozmywają.'},
+ {topic:'skaly',t:'single',q:'Skały lite…',opts:['składają się z silnie połączonych minerałów – nie rozkruszysz ich w dłoni ani nie rozmiękczysz wodą','przesypują się przez palce','wilgotne można ugniatać jak plastelinę','woda łatwo je rozmywa'],why:'Skały lite to np. węgiel, piaskowiec, wapień, granit. Niektóre są tak twarde, że trudno je rozbić nawet młotkiem.'},
+ {topic:'skaly',t:'gen',make(){const Q=[['Z czego robi się szkło?','z piasku stopionego w wysokiej temperaturze'],['Z czego powstaje cegła?','z wypalonej gliny'],['Które skały są niezbędne do produkcji betonu i wzmacniania dróg?','żwir i piasek']];const i=R(0,2);
+   return {t:'single',q:Q[i][0],opts:[Q[i][1],...Q.filter((_,j)=>j!==i).map(x=>x[1]),'z węgla'],why:'Szkło robi się z piasku stopionego w wysokiej temperaturze, cegła powstaje z wypalonej gliny, a żwir i piasek są potrzebne do betonu i dróg.'}}},
+ {topic:'skaly',t:'gen',make(){const Q=[['twardość','zarysuję ją gwoździem'],['spójność','nacisnę palcami lub lekko puknę małym młotkiem'],['odporność na działanie wody','zanurzę ją w wodzie'],['barwę','obejrzę ją dokładnie, np. przez lupę']];const i=R(0,3);
+   return {t:'single',q:`Jak sprawdzisz ${Q[i][0]} skały?`,opts:[Q[i][1],...Q.filter((_,j)=>j!==i).map(x=>x[1])],why:'Twardość – gwoździem, spójność – palcami lub młotkiem, odporność na wodę – zanurzając w wodzie, barwę – oglądając.'}}},
+
+ /* ---------- GLEBA ---------- */
+ {topic:'gleba',t:'single',q:'Gleba to…',opts:['naturalna warstwa przykrywająca skały na powierzchni Ziemi','skała lita, np. granit','tylko korzenie roślin','warstwa betonu pod trawnikiem'],why:'Gleba to naturalna warstwa przykrywająca skały na powierzchni Ziemi. Jest podłożem, z którego wyrastają rośliny.'},
+ {topic:'gleba',t:'single',q:'Jak powstaje gleba?',opts:['bardzo wolno – przez setki, a nawet tysiące lat – ze skał i z udziałem organizmów','w ciągu jednego lata z deszczu','tylko z liści, bez udziału skał','z betonu i cegieł'],why:'Gleba powstaje bardzo wolno ze skał i z udziałem organizmów, przez setki, a nawet tysiące lat.'},
+ {topic:'gleba',t:'order',q:'Ułóż etapy powstawania gleby we właściwej kolejności.',items:['okruchy skał – skały pękają i rozpadają się','pierwsze organizmy – bakterie, mchy i grzyby','próchnica glebowa – ze szczątków obumarłych organizmów','ukształtowana gleba – zasiedlają ją coraz większe organizmy'],why:'Okruchy skał → pierwsze organizmy → próchnica glebowa → ukształtowana gleba.'},
+ {topic:'gleba',t:'single',q:'Z czego powstaje próchnica glebowa?',opts:['ze szczątków obumarłych organizmów','z okruchów granitu','z wody deszczowej','z powietrza'],why:'Małe organizmy obumierają, a z ich szczątków powstaje próchnica glebowa.'},
+ {topic:'gleba',t:'single',q:'Jakie organizmy jako pierwsze zaczynają żyć na okruchach skał?',opts:['bakterie, mchy i grzyby','drzewa i krzewy','krety i lisy','ptaki'],why:'Na okruchach skał zaczynają żyć małe organizmy: bakterie, mchy i grzyby. Sprawiają, że skały kruszą się jeszcze bardziej.'},
+ {topic:'gleba',t:'gen',make(){return sortFrom({'ożywione':['korzenie roślin','bakterie','grzyby','dżdżownice','krety','mrówki'],'nieożywione':['próchnica glebowa','okruchy skał','woda','powietrze']},3,'Przypisz składniki gleby do właściwej grupy.','Ożywione: korzenie roślin, bakterie, grzyby, zwierzęta (dżdżownice, krety, mrówki). Nieożywione: próchnica glebowa, okruchy skał, woda i powietrze.')}},
+ {topic:'gleba',t:'tf',q:'Próchnica glebowa jest składnikiem ożywionym gleby.',a:false,why:'Próchnica powstaje ze szczątków organizmów, ale w podręczniku jest składnikiem NIEożywionym – razem z okruchami skał, wodą i powietrzem.'},
+ {topic:'gleba',t:'single',q:'Jak najczęściej wygląda grzybnia w glebie?',opts:['jak białe nitki','jak czarne kamyki','jak zielone listki','jak bańki powietrza'],why:'Grzybnia to ciało grzybów. Jej podziemne części najczęściej przypominają białe nitki.'},
+ {topic:'gleba',t:'single',q:'Jaki kolor ma próchnica glebowa?',opts:['ciemnobrązowy lub ciemnoszary','jasnożółty','czerwony','biały'],why:'Próchnica glebowa gromadzi się na powierzchni gleby i ma kolor ciemnobrązowy lub ciemnoszary.'},
+ {topic:'gleba',t:'single',q:'Co jest śladem obecności zwierząt w glebie?',opts:['kanaliki lub korytarze','białe nitki','okruchy skał','próchnica'],why:'Śladami obecności zwierząt glebowych są kanaliki lub korytarze w glebie.'},
+ {topic:'gleba',t:'tf',q:'Powietrze w glebie wypełnia wolne miejsca między bryłkami i jest potrzebne roślinom i organizmom glebowym.',a:true,why:'Tak – woda i powietrze znajdują się między bryłkami gleby.'},
+ {topic:'gleba',t:'gen',make(){const Q=[['prochniczny','W którym poziomie jest najwięcej składników ożywionych?'],['prochniczny','Który poziom zawiera najwięcej wody i składników potrzebnych roślinom?'],['skala','Który poziom jest najgłębszy?'],['skala','Z którego poziomu powstała gleba (to jej podłoże)?'],['glebsze','Które poziomy różnią się od siebie kolorem i składnikami, a im głębiej, tym mniej w nich składników ożywionych?']];const [k,q]=pick(Q);
+   return {t:'hot',hot:'gleba',target:k,q:`Kliknij właściwą warstwę na przekroju gleby. ${q}`,why:'Na górze jest poziom próchniczny (najwięcej życia, wody i składników dla roślin), niżej głębsze poziomy glebowe (im głębiej, tym mniej składników ożywionych), a na samym dole skała, z której powstała gleba.'}}},
+ {topic:'gleba',t:'gen',make(){const Q=[['prochniczny','W którym poziomie jest najwięcej składników ożywionych?'],['skala','Który poziom jest najgłębszy?'],['glebsze','Kliknij głębsze poziomy glebowe.'],['prochniczny','Który poziom znajduje się na powierzchni gleby?']];const [k,q]=pick(Q);
+   return {t:'hot',hot:'gleba',target:k,q:`Kliknij właściwą warstwę na przekroju gleby. ${q}`,why:'Poziom próchniczny – na powierzchni, najwięcej życia. Głębsze poziomy – mniej składników ożywionych. Skała – najgłębszy poziom, podłoże gleby.'}}},
+ {topic:'gleba',t:'tf',q:'Im głębiej, tym więcej w glebie składników ożywionych.',a:false,why:'Jest odwrotnie: im głębiej, tym mniej składników ożywionych, a więcej skały, z której gleba powstała.'},
+ {topic:'gleba',t:'tf',q:'Skała, czyli najgłębszy poziom glebowy, może być lita, zwięzła lub luźna (na przykład piasek).',a:true,why:'Tak napisano w podręczniku.'},
+ {topic:'gleba',t:'single',q:'Do uprawy roślin najlepiej nadaje się gleba, która…',opts:['ma gruby poziom próchniczny','zawiera dużo piasku i kamieni','nie zawiera próchnicy glebowej','zawiera tylko składniki ożywione'],why:'Im grubszy i ciemniejszy poziom próchniczny, tym lepiej gleba nadaje się do uprawy roślin.'},
+ {topic:'gleba',t:'multi',q:'Zaznacz, dlaczego gleba jest ważna dla przyrody i człowieka.',ok:['jest podłożem, z którego wyrastają rośliny','dzięki niej rosną zboża, owoce i warzywa','jest miejscem życia zwierząt','zapobiega powodziom','oczyszcza wodę jak filtr'],no:['produkuje tlen','ogrzewa powietrze zimą'],why:'Gleba: podłoże dla roślin (też uprawnych), miejsce życia zwierząt, chłonie wodę jak gąbka (chroni przed powodzią), oczyszcza wodę jak filtr. Tlen produkują rośliny.'},
+ {topic:'gleba',t:'single',q:'Jak gleba zapobiega powodziom?',opts:['po obfitych deszczach chłonie wodę jak gąbka, a potem woda powoli odpływa do rzek i jezior','zamienia deszcz w parę','odpycha wodę do morza','zamarza i blokuje wodę'],why:'Gleba chłonie wodę jak gąbka. Potem woda powoli odpływa z gleby do rzek i jezior.'},
+
+ /* ---------- BADANIA GLEBY ---------- */
+ {topic:'badania',t:'single',q:'Po co robi się badania gleby?',opts:['żeby poznać cechy gleby i sprawdzić, czy nadaje się do uprawy roślin','żeby znaleźć skarb','żeby zmierzyć wysokość wzgórza','żeby sprawdzić, czy skała pieni się z octem'],why:'Badania gleby robi się po to, aby poznać cechy gleby i sprawdzić, czy nadaje się do uprawy roślin.'},
+ {topic:'badania',t:'single',q:'Jak głęboki wykop robi się do badania gleby?',opts:['30–50 centymetrów','2–3 metry','5 centymetrów','10 metrów'],why:'Na trawniku lub w ogrodzie wykopuje się dół o głębokości 30–50 cm. Po badaniu trzeba go zasypać.'},
+ {topic:'badania',t:'tf',q:'Po zakończeniu badania wykop trzeba zasypać.',a:true,why:'Tak – trzeba pamiętać, aby dół po badaniu zasypać.'},
+ {topic:'badania',t:'multi',q:'Zaznacz cechy gleby, które badamy podczas obserwacji w okolicy.',ok:['grubość poziomu próchnicznego','barwa','struktura','uziarnienie','obecność organizmów'],no:['smak','waga'],why:'Badamy: grubość poziomu próchnicznego, barwę, strukturę, uziarnienie i obecność organizmów.'},
+ {topic:'badania',t:'multi',q:'Co przygotujesz do badania gleby w okolicy?',ok:['lupę','szpadel','łopatkę ogrodniczą','taśmę mierniczą'],no:['ocet','młotek do skał'],why:'Potrzebne są: lupa, szpadel, łopatka ogrodnicza, taśma miernicza (lub centymetr krawiecki) i karta obserwacji.'},
+ {topic:'badania',t:'single',q:'Czym mierzymy grubość poziomu próchnicznego?',opts:['taśmą mierniczą (w centymetrach)','lupą','termometrem','wagą'],why:'Grubość poziomu próchnicznego mierzy się taśmą mierniczą i podaje w centymetrach.'},
+ {topic:'badania',t:'gen',make(){const C=[['szara lub ciemnobrązowa','obecność próchnicy glebowej'],['czerwonawa lub brązowa','obecność żelaza'],['jasnoszara lub jasnożółta','dużą ilość skał, np. piasku lub wapienia']];const i=R(0,2);
+   return {t:'single',q:`Gleba ma barwę ${C[i][0]}. Na co to wskazuje?`,opts:[C[i][1],...C.filter((_,j)=>j!==i).map(x=>x[1]),'obecność wody morskiej'],why:'Szara/ciemnobrązowa → próchnica, czerwonawa/brązowa → żelazo, jasnoszara/jasnożółta → dużo skał, np. piasku lub wapienia.'}}},
+ {topic:'badania',t:'gen',make(){const C=[['luźna','gleba nie tworzy bryłek, tylko się przesypuje'],['gruzełkowa','w glebie widać małe bryłki – między nimi zatrzymuje się woda i powietrze'],['bryłowa','gleba składa się z dużych, zwartych brył, czasem większych niż dłoń']];const i=R(0,2);
+   return {t:'single',q:`Podczas badania okazało się, że ${C[i][1]}. Jaką strukturę ma ta gleba?`,opts:[C[i][0],...C.filter((_,j)=>j!==i).map(x=>x[0]),'kamienistą'],why:'Struktura luźna – przesypuje się; gruzełkowa – małe bryłki; bryłowa – duże, zwarte bryły.'}}},
+ {topic:'badania',t:'single',q:'Która struktura gleby najbardziej sprzyja roślinom?',opts:['gruzełkowa','bryłowa','luźna','żadna'],why:'W strukturze gruzełkowej między bryłkami zatrzymuje się woda i zbiera powietrze, co sprzyja roślinom.'},
+ {topic:'badania',t:'gen',make(){const C=[['piaszczysta','zawiera dużo ziaren piasku'],['gliniasta','zawiera dużo gliny'],['kamienista','zawiera dużo odłamków skał (kamieni) różnej wielkości']];const i=R(0,2);
+   return {t:'single',q:`Gleba ${C[i][1]}. Jak nazwiesz jej uziarnienie?`,opts:[C[i][0],...C.filter((_,j)=>j!==i).map(x=>x[0]),'próchniczna'],why:'Uziarnienie mówi, jakie ziarna skalne przeważają: gleba piaszczysta – piasek, gliniasta – glina, kamienista – kamienie.'}}},
+ {topic:'badania',t:'single',q:'W której glebie woda najłatwiej się zatrzymuje?',opts:['w gliniastej','w piaszczystej','w kamienistej','we wszystkich tak samo'],why:'Przez piasek i kamienie woda łatwo przepływa, jak przez ziarna piasku i żwiru. Glina zatrzymuje wodę lepiej.'},
+ {topic:'badania',t:'single',q:'Jak zaobserwujesz w glebie mniejsze organizmy, np. skoczogonki?',opts:['użyję lupy','powącham glebę','zmierzę taśmą','poleję glebę octem'],why:'Aby zaobserwować mniejsze organizmy, trzeba użyć lupy.'},
+ {topic:'badania',t:'single',q:'Czym różni się ziemia ogrodnicza od zwykłej gleby z okolicy?',opts:['zawiera dużo próchnicy i ma strukturę gruzełkową','zawiera dużo piasku i kamieni','jest jasnożółta i sucha','nie ma w niej wody ani powietrza'],why:'Ziemia ogrodnicza zawiera dużo próchnicy i ma strukturę gruzełkową.'},
+ {topic:'badania',t:'single',q:'W doświadczeniu porównujesz rośliny w ziemi ogrodniczej i w glebie z okolicy. Co musi być takie samo w obu doniczkach?',opts:['ilość wody, liczba nasion i miejsce (ciepło, światło)','rodzaj gleby','kolor doniczek nie ma znaczenia, a woda może być różna','nic nie musi być takie samo'],why:'Różni się tylko rodzaj gleby. Wszystko inne – woda, liczba nasion tej samej rośliny, miejsce – musi być takie samo.'},
+ {topic:'badania',t:'tf',q:'Rośliny pobierają większość potrzebnej im wody z gleby za pomocą korzeni.',a:true,why:'Tak – dlatego woda w glebie jest dla roślin tak ważna.'},
+ {topic:'badania',t:'single',q:'Dwie doniczki z rzeżuchą: jedną podlewamy codziennie, drugiej wcale. Czego się spodziewasz po dwóch tygodniach?',opts:['w wilgotnej glebie rośliny rosną dobrze, a w suchej – słabo','w suchej glebie rośliny rosną lepiej','w obu tak samo','żadne nasiona nie wykiełkują'],why:'Rośliny pobierają wodę z gleby korzeniami – bez wody nie mogą dobrze rosnąć.'},
+ {topic:'badania',t:'gen',make(){const P=[['Gleba jest prawie czarna i wilgotna. Ma dużo małych bryłek.',true],['Gleba jest jasna i sucha. Łatwo przesypuje się przez palce.',false],['Gleba jest jasna i wilgotna. Zawiera dużo odłamków skał.',false]];const sh=shuffle(P);const idx=sh.findIndex(x=>x[1]);
+   return {t:'single',q:`Zosia i dziadek chcą posadzić sałatę. Miejsce 1: ${sh[0][0]} Miejsce 2: ${sh[1][0]} Miejsce 3: ${sh[2][0]} Które miejsce jest najlepsze?`,opts:[`Miejsce ${idx+1}.`,...[1,2,3].filter(n=>n!==idx+1).map(n=>`Miejsce ${n}.`),'Żadne miejsce nie jest dobre.'],why:'Najlepsza jest gleba ciemna (dużo próchnicy), wilgotna (ma wodę) i z małymi bryłkami (struktura gruzełkowa).'}}},
+ {topic:'badania',t:'multi',q:'Zaznacz cechy gleby dobrej dla roślin.',ok:['zawiera dużo próchnicy','zawiera wodę','ma strukturę gruzełkową','żyje w niej wiele organizmów'],no:['jest jasna i sucha','ma strukturę bryłową'],why:'Gleba dobra dla roślin: dużo próchnicy, zawiera wodę, ma strukturę gruzełkową, żyje w niej wiele organizmów.'},
+ {topic:'badania',t:'single',q:'Co sprawdzisz doświadczeniem z butelką, filtrem do kawy, glebą i wodą zabarwioną atramentem?',opts:['czy gleba oczyszcza wodę','czy gleba się pieni','jak głęboki jest poziom próchniczny','ile ważą nasiona'],why:'To filtr glebowy: woda przelana przez glebę jest czystsza, bo gleba zatrzymuje część zanieczyszczeń.'},
+
+ /* ---------- ROŚLINY I ZWIERZĘTA ---------- */
+ {topic:'zywe',t:'multi',q:'Zaznacz korzyści z uprawy roślin w domu.',ok:['zdobią pomieszczenia','produkują tlen','nawilżają powietrze','dzięki nim poznajemy przyrodę i uczymy się systematyczności','niektóre są przyprawami'],no:['ogrzewają mieszkanie','odstraszają pająki'],why:'Rośliny w domu: zdobią, produkują tlen, nawilżają (niektóre też oczyszczają) powietrze, uczą systematyczności, niektóre są przyprawami.'},
+ {topic:'zywe',t:'single',q:'Która roślina doniczkowa z podręcznika oczyszcza powietrze?',opts:['paprotka','koniczyna biała','babka lancetowata','róża dzika'],why:'Niektóre rośliny, na przykład paprotka, nawet oczyszczają powietrze.'},
+ {topic:'zywe',t:'single',q:'Które rośliny możemy wykorzystać w kuchni jako przyprawy?',opts:['miętę i bazylię','fikusa i dracenę','storczyka i zielistkę','koniczynę i babkę'],why:'Niektóre rośliny, takie jak mięta czy bazylia, możemy wykorzystywać w kuchni jako przyprawy.'},
+ {topic:'zywe',t:'multi',q:'Zaznacz rośliny doniczkowe.',ok:['dracena','fikus','sępolia (fiołek)','storczyk','zielistka'],no:['brzoza brodawkowata','babka lancetowata'],why:'Rośliny doniczkowe z podręcznika: dracena, fikus, sępolia, paprotka, storczyk, zielistka.'},
+ {topic:'zywe',t:'gen',make(){const Q=[['Kiedy najlepiej sadzić tulipany?','jesienią, przed końcem października, zanim pojawią się przymrozki',['wiosną, gdy kwitną','latem w upały','w środku zimy']],['Jak głęboko sadzimy cebulki tulipanów?','na głębokość 15 cm',['na głębokość 1 cm','na głębokość 1 m','kładziemy je na ziemi']],['Jak ustawiamy cebulkę tulipana w dołku?','spiczastą częścią do góry',['spiczastą częścią w dół','bokiem','obojętnie']],['Czym okrywamy zasadzone cebulki tulipanów?','rozdrobnioną korą (i usuwamy ją przed wiosną)',['folią na całe lato','piaskiem z plaży','niczym']]];const [q,a,w]=pick(Q);
+   return {t:'single',q,opts:[a,...w],why:'Tulipany sadzimy przed końcem października, cebulki 15 cm w głąb, co 15–20 cm, spiczastą częścią do góry, i okrywamy rozdrobnioną korą.'}}},
+ {topic:'zywe',t:'single',q:'Dlaczego tysiące lat temu ludzie udomowili kury, kozy, owce i bydło?',opts:['dzięki nim mieli pożywienie i ubrania','bo pilnowały domów','bo łapały muchy','dla zabawy'],why:'Dzięki udomowionym zwierzętom ludzie mieli pożywienie i ubrania.'},
+ {topic:'zywe',t:'multi',q:'Czego potrzebuje każde zwierzę, które hodujemy w domu?',ok:['pokarmu','dostępu do wody','schronienia','odpowiedniej ilości ruchu'],no:['słodyczy','ciągłego hałasu'],why:'Każde zwierzę ma inne wymagania, ale wszystkie potrzebują pokarmu, wody, schronienia i ruchu. Czasem też pomocy weterynarza.'},
+ {topic:'zywe',t:'tf',q:'Zwierzęta, które hodujemy w domu, uczą nas odpowiedzialności i systematyczności.',a:true,why:'Tak – musimy poznać ich wymagania i je szanować.'},
+ {topic:'zywe',t:'single',q:'Gekon lamparci…',opts:['żyje na gorących pustyniach, w domu trzyma się go w ogrzewanym terrarium','żyje w zimnych górach, w domu trzyma się go w lodówce','mieszka w akwarium z rybkami','jest szkodnikiem niszczącym mąkę'],why:'Gekon lamparci żyje na gorących pustyniach. W domu trzyma się go w ogrzewanych terrariach.'},
+ {topic:'zywe',t:'gen',make(){return sortFrom({'pomaga ludziom':['kątnik domowy','inne pająki w domu'],'nie szkodzi':['rybik cukrowy'],'szkodzi':['wołek zbożowy','karaczan (karaluch)','pluskwa domowa','mól włosienniczek']},2,'Zwierzęta w naszych domach: przypisz każde do właściwej grupy.','Pająki (np. kątnik) polują na muchy i komary – to sprzymierzeńcy. Rybiki nam nie szkodzą. Wołki, karaczany, mole i pluskwy szkodzą.')}},
+ {topic:'zywe',t:'gen',make(){const A=[['wołek zbożowy','niszczy żywność, na przykład mąkę lub kaszę'],['karaczan (karaluch)','przenosi choroby'],['pluskwa domowa','powoduje bolesne ugryzienia'],['mól włosienniczek','niszczy ubrania, głównie wełniane'],['kątnik domowy','poluje na owady, np. muchy i komary']];const i=R(0,4);
+   return {t:'single',q:`Które zwierzę ${A[i][1]}?`,opts:[A[i][0],...shuffle(A.filter((_,j)=>j!==i).map(x=>x[0])).slice(0,3)],why:A.map(x=>`${cap(x[0])} – ${x[1]}`).join('. ')+'.'}}},
+ {topic:'zywe',t:'multi',q:'Które większe zwierzęta mogą pojawiać się w okolicy domów nocą?',ok:['jeże','lisy','sarny','dziki'],no:['biedronki','szpaki'],why:'Nocą pojawiają się większe zwierzęta, na przykład jeże, lisy, sarny i dziki. Nie wolno do nich podchodzić.'},
+ {topic:'zywe',t:'tf',q:'Gdy spotkasz dzika w mieście, możesz do niego podejść i go pogłaskać.',a:false,why:'Do dzikich zwierząt nie podchodzimy – mogą być niebezpieczne.'},
+ {topic:'zywe',t:'multi',q:'Dlaczego dzikie zwierzęta przychodzą do miast?',ok:['szukają pokarmu, np. resztek ze śmietników i owoców krzewów','łatwiej im znaleźć kryjówkę, np. w piwnicy albo w parku','w mieście jest mniej zwierząt drapieżnych','zimą w mieście jest cieplej niż w lesie'],no:['lubią hałas samochodów'],why:'Zwierzęta szukają w mieście pokarmu i kryjówek, jest tam mniej drapieżników, a zimą jest cieplej.'},
+ {topic:'zywe',t:'single',q:'Dlaczego obecność roślin przy szkołach przyciąga wiele zwierząt?',opts:['zwierzęta szukają tam schronienia i pożywienia','bo przy szkołach jest głośno','bo dzieci je karmią słodyczami','bo rośliny je odstraszają'],why:'Obecność roślin przyciąga wiele zwierząt, które szukają schronienia i pożywienia.'},
+ {topic:'zywe',t:'gen',make(){return guess(PLANTS,'Roślina ma takie cechy')}},
+ {topic:'zywe',t:'gen',make(){return guess(PLANTS,'Roślina ma takie cechy')}},
+ {topic:'zywe',t:'gen',make(){return guess(BIRDS,'Ptak ma takie cechy')}},
+ {topic:'zywe',t:'gen',make(){return guess(BIRDS,'Ptak ma takie cechy')}},
+ {topic:'zywe',t:'gen',make(){return guess(INSECTS,'Owad ma takie cechy')}},
+ {topic:'zywe',t:'single',q:'Adam znalazł zdjęcie pnia drzewa z białą korą w czarne plamki. Jakie to drzewo?',opts:['brzoza brodawkowata','lipa drobnolistna','róża dzika','śnieguliczka biała'],why:'Brzoza brodawkowata ma na pniu białą korę z czarnymi plamkami.'},
+ {topic:'zywe',t:'single',q:'Julka znalazła czarno-białe pióro z metalicznym połyskiem. Który ptak mógł je zgubić?',opts:['sroka','gawron','szpak','kos'],why:'Sroka ma pióra czarne i białe, a skrzydła i ogon mają metaliczny połysk.'},
+ {topic:'zywe',t:'tf',q:'Owoce śnieguliczki białej utrzymują się na krzewie przez całą zimę.',a:true,why:'Tak – owoce śnieguliczki są kuliste, białe i utrzymują się przez całą zimę.'},
+];
+
+/* ================= NOTATKI ================= */
+const NOTES={
+krajobraz:`
+ <h2>Krajobraz mojej okolicy</h2>
+ <div class="def"><b>Krajobraz</b> to wszystkie elementy przyrody i elementy stworzone przez człowieka, które widzimy wokół siebie.</div>
+ <div class="cols">
+  <div><h3><span class="hl-c">Elementy przyrody</span></h3><p>skały, gleba, ukształtowanie terenu, wody (rzeki, jeziora), rośliny, zwierzęta</p></div>
+  <div><h3><span class="hl-o">Stworzone przez człowieka</span></h3><p>budynki, mosty, drogi, fabryki, słupy, ogrodzenia</p></div>
+ </div>
+ <p class="trap"><b>Pułapka!</b> Krajobraz to <u>nie</u> to samo co przyroda – w krajobrazie są też rzeczy zbudowane przez ludzi.</p>
+ <h3><span class="hl-o">Rodzaje krajobrazów</span></h3>
+ <ul>
+  <li><b>Naturalny</b> – człowiek zmienił go w niewielkim stopniu, np. <b>krajobraz wysokich gór</b>.</li>
+  <li><b>Stworzony przez człowieka</b> – człowiek bardzo go zmienił i zbudował w nim wiele nowych elementów, np. <b>krajobraz wsi</b> i <b>krajobraz miasta</b>.</li>
+ </ul>
+ <div class="tbl-wrap"><table class="tbl"><thead><tr><th></th><th>Wieś</th><th>Miasto</th></tr></thead><tbody>
+  <tr><th>budynki</th><td>niskie, oddalone od siebie, budynki gospodarcze</td><td>wysokie, blisko siebie: osiedla bloków, biurowce, muzea, fabryki</td></tr>
+  <tr><th>drogi</th><td>pojedyncze drogi, wąskie ścieżki</td><td>wiele asfaltowych ulic, place, rynki</td></tr>
+  <tr><th>przyroda</th><td>pola, sady, łąki, pastwiska, zwierzęta gospodarskie</td><td>przesłonięta przez budynki; parki i skwery to dzieło człowieka</td></tr>
+  <tr><th>skąd się wziął</th><td>uprawa ziemi i hodowla zwierząt (praca rolników); coraz częściej też turystyka – hotele, ścieżki rowerowe</td><td>budowa domów, ulic, zakładów</td></tr>
+ </tbody></table></div>
+ <h3><span class="hl-p">Wszystko jest ze sobą powiązane</span></h3>
+ <p>Jeśli zmieni się jeden element krajobrazu, zmienią się też inne. Przykłady z podręcznika:</p>
+ <ul>
+  <li>Woda z rzek jest potrzebna ludziom do picia – dlatego <b>nad rzekami powstało wiele miast</b>.</li>
+  <li>Las to dla zwierząt <b>schronienie i miejsce, gdzie znajdują pożywienie</b>. Gdy ludzie wycinają las, tworzą w jego miejscu <b>pola, łąki i pastwiska</b> – a zwierzęta tracą dom.</li>
+  <li>W mieście przyrodę ożywioną najłatwiej obserwować w <b>parku</b>.</li>
+ </ul>`,
+teren:`
+ <h2>Ukształtowanie terenu</h2>
+ <div class="def"><b>Ukształtowanie terenu</b> to wszystkie płaskie powierzchnie i nierówności powierzchni Ziemi. Jest elementem krajobrazu.</div>
+ <div class="cols">
+  <div><h3><span class="hl-o">Wypukłe – wzniesienia</span></h3><ul><li><b>pagórek</b> – do 50 m</li><li><b>wzgórze</b> – od 50 do 300 m</li><li><b>góra</b> – ponad 300 m</li></ul></div>
+  <div><h3><span class="hl-c">Wklęsłe – zagłębienia</span></h3><ul><li><b>dolina</b> – długie, wydłużone zagłębienie, często płynie nią rzeka</li><li><b>kotlina</b> – zagłębienie bardziej zaokrąglone, prawie ze wszystkich stron otoczone wyższym terenem</li></ul></div>
+  <div><h3><span class="hl-p">Płaskie</span></h3><ul><li><b>równina</b> – płaski lub lekko falisty teren</li></ul></div>
+ </div>
+ <p class="formula">do 50 m pagórek · 50–300 m wzgórze · ponad 300 m góra</p>
+ <h3><span class="hl-o">Części form terenu</span> <small class="muted">(kliknij kółko)</small></h3>
+ <div class="dia-learn" id="learn-terrain"></div><p class="say" id="terrain-say" aria-live="polite">Kliknij kółko na rysunku.</p>
+ <ul>
+  <li>Wzniesienie: <b>szczyt</b> – najwyższe miejsce, <b>stok</b> – pochyły bok, <b>podnóże</b> – podstawa, od której mierzymy wysokość.</li>
+  <li>Zagłębienie (dolina, kotlina): <b>zbocza</b> – nachylone boki i <b>dno</b> – najniższa część.</li>
+ </ul>
+ <p class="trap"><b>Pułapka!</b> <b>Stok</b> ma wzniesienie (góra, wzgórze), a <b>zbocze</b> ma zagłębienie (dolina). Dolina jest <b>długa</b>, kotlina – <b>okrągła</b>.</p>
+ <h3><span class="hl-p">Jak ukształtowanie terenu wpływa na życie ludzi</span></h3>
+ <ul>
+  <li><b>Równina</b> – najłatwiej budować miasta, wsie, drogi i uprawiać ziemię.</li>
+  <li><b>Stoki gór</b> są bardzo nachylone – trudno tam budować domy i uprawiać ziemię.</li>
+  <li><b>Wąskie i głębokie doliny</b> są przeszkodą – ludzie budują nad nimi <b>mosty i wiadukty</b>.</li>
+  <li><b>Wyrównane dno kotliny</b> – dobre miejsce na miasta, wsie i drogi.</li>
+  <li>Ciekawostka: kotliny po uderzeniu meteorytu to <b>kratery meteorytowe</b> (mogą mieć nawet 200 m głębokości).</li>
+ </ul>`,
+skaly:`
+ <h2>Rozpoznaję skały</h2>
+ <div class="def"><b>Skała</b> to naturalny materiał budujący powierzchnię Ziemi. Skały tworzą <b>minerały</b> (jak składniki ciasta). Skały pokrywają lądy i tworzą dno mórz i oceanów.</div>
+ <p class="trap"><b>Pułapka!</b> Beton, pustaki i cegły <u>nie są</u> skałami – zrobił je człowiek. Za to piasek na plaży <u>jest</u> skałą.</p>
+ <h3><span class="hl-o">Cztery cechy skał i jak je zbadać</span></h3>
+ <ul>
+  <li><b>barwa</b> – oglądamy (np. przez lupę),</li>
+  <li><b>spójność</b> – naciskamy palcami lub lekko pukamy małym młotkiem,</li>
+  <li><b>twardość</b> – próbujemy zarysować gwoździem,</li>
+  <li><b>odporność na działanie wody</b> – zanurzamy w wodzie.</li>
+ </ul>
+ <p>Ocet <b>pieni się z wapieniem</b> – tak rozpoznasz wapień.</p>
+ <h3><span class="hl-c">Trzy grupy skał</span></h3>
+ <div class="tbl-wrap"><table class="tbl"><thead><tr><th>grupa</th><th>jaka jest</th><th>przykłady</th></tr></thead><tbody>
+  <tr><th>luźne (sypkie)</th><td>osobne, niepołączone ziarna; nawet mokra nie da trwałej kulki</td><td><b>piasek</b> – jasny, przesypuje się; <b>żwir</b> – ziarna większe od piasku, różne kolory</td></tr>
+  <tr><th>zwięzłe</th><td>suche – twarde, ale da się pokruszyć w dłoni; wilgotne – plastyczne; woda je rozmywa</td><td><b>less</b> – żółtawy, jasnobrunatny, miękki; <b>glina</b> – brązowa, mokrą można lepić</td></tr>
+  <tr><th>lite</th><td>minerały mocno połączone – nie rozkruszysz w dłoni, woda ich nie rozmiękczy</td><td><b>węgiel</b> – czarny z połyskiem, kruchy; <b>piaskowiec</b> – sklejone ziarna piasku, żółty, czerwony lub szary; <b>wapień</b> – jasny, pieni się z octem; <b>granit</b> – bardzo twardy, szary lub różowawy, widać ziarna minerałów</td></tr>
+ </tbody></table></div>
+ <h3><span class="hl-p">Do czego ludzie używają skał</span></h3>
+ <ul>
+  <li><b>szkło</b> – z piasku stopionego w wysokiej temperaturze,</li>
+  <li><b>cegła</b> – z wypalonej gliny,</li>
+  <li><b>żwir i piasek</b> – do betonu i wzmacniania dróg,</li>
+  <li><b>granit</b> – np. na blaty kuchenne (twardy, odporny na wodę).</li>
+ </ul>`,
+gleba:`
+ <h2>Co kryje gleba?</h2>
+ <div class="def"><b>Gleba</b> to naturalna warstwa przykrywająca skały na powierzchni Ziemi. Jest podłożem, z którego wyrastają rośliny.</div>
+ <h3><span class="hl-o">Jak powstaje gleba</span></h3>
+ <p>Bardzo <b>wolno</b> – przez setki, a nawet tysiące lat – <b>ze skał i z udziałem organizmów</b>.</p>
+ <ol class="stages">
+  <li><b>Okruchy skał</b><span>skały pękają i rozpadają się</span></li>
+  <li><b>Pierwsze organizmy</b><span>bakterie, mchy i grzyby kruszą skały jeszcze bardziej</span></li>
+  <li><b>Próchnica glebowa</b><span>powstaje ze szczątków obumarłych organizmów</span></li>
+  <li><b>Ukształtowana gleba</b><span>zasiedlają ją coraz większe rośliny i zwierzęta</span></li>
+ </ol>
+ <h3><span class="hl-c">Składniki gleby</span></h3>
+ <div class="cols">
+  <div><b>ożywione</b><ul><li>korzenie roślin</li><li>bakterie</li><li>grzyby (grzybnia wygląda jak <b>białe nitki</b>)</li><li>zwierzęta: dżdżownice, mrówki, krety – ich ślady to <b>kanaliki i korytarze</b></li></ul></div>
+  <div><b>nieożywione</b><ul><li><b>próchnica glebowa</b> – ciemnobrązowa lub ciemnoszara</li><li>okruchy skał</li><li>woda</li><li>powietrze (między bryłkami)</li></ul></div>
+ </div>
+ <p class="trap"><b>Pułapka!</b> Próchnica powstaje z organizmów, ale jest składnikiem <b>nieożywionym</b>.</p>
+ <h3><span class="hl-o">Poziomy glebowe</span> <small class="muted">(kliknij warstwę)</small></h3>
+ <div class="dia-learn" id="learn-soil"></div><p class="say" id="soil-say" aria-live="polite">Kliknij warstwę na rysunku.</p>
+ <ul>
+  <li><b>Poziom próchniczny</b> – na górze; najwięcej składników ożywionych, wody i składników potrzebnych roślinom. <b>Im grubszy i ciemniejszy, tym lepiej</b> gleba nadaje się do uprawy.</li>
+  <li><b>Głębsze poziomy glebowe</b> – różnią się barwą i składnikami. <b>Im głębiej, tym mniej składników ożywionych</b>, a więcej skały.</li>
+  <li><b>Skała</b> – najgłębszy poziom, z którego powstała gleba (podłoże); może być lita, zwięzła lub luźna.</li>
+ </ul>
+ <h3><span class="hl-p">Znaczenie gleby</span></h3>
+ <ul>
+  <li>podłoże dla roślin – także uprawnych (zboża, owoce, warzywa), czyli nasze <b>pożywienie</b>,</li>
+  <li>miejsce życia zwierząt,</li>
+  <li><b>zapobiega powodziom</b> – chłonie wodę jak gąbka, potem woda powoli odpływa do rzek i jezior,</li>
+  <li><b>oczyszcza wodę</b> jak filtr.</li>
+ </ul>`,
+badania:`
+ <h2>Gleba w mojej okolicy</h2>
+ <p><b>Po co badamy glebę?</b> Żeby poznać jej cechy i sprawdzić, czy nadaje się do uprawy roślin.</p>
+ <p><b>Potrzebne:</b> lupa, szpadel, łopatka ogrodnicza, taśma miernicza (lub centymetr krawiecki), karta obserwacji. Wykop ma <b>30–50 cm</b> głębokości – po badaniu <b>zasypujemy</b> go.</p>
+ <h3><span class="hl-o">Pięć cech gleby, które badamy</span></h3>
+ <ol>
+  <li><b>Grubość poziomu próchnicznego</b> – mierzymy taśmą, w centymetrach.</li>
+  <li><b>Barwa</b>:
+   <ul><li>szara lub ciemnobrązowa → <b>próchnica</b>,</li><li>czerwonawa lub brązowa → <b>żelazo</b>,</li><li>jasnoszara lub jasnożółta → <b>dużo skał</b>, np. piasku lub wapienia.</li></ul></li>
+  <li><b>Struktura</b> (jak gleba się układa):
+   <ul><li><b>luźna</b> – nie tworzy bryłek, przesypuje się,</li><li><b>gruzełkowa</b> – małe bryłki, między nimi woda i powietrze – <b>najlepsza dla roślin</b>,</li><li><b>bryłowa</b> – duże, zwarte bryły, czasem większe niż dłoń.</li></ul></li>
+  <li><b>Uziarnienie</b> (jakie ziarna skał przeważają): <b>piaszczysta</b>, <b>gliniasta</b>, <b>kamienista</b>. Przez piasek i kamienie woda szybko przecieka, glina ją zatrzymuje.</li>
+  <li><b>Obecność organizmów</b> – szukamy zwierząt, korzeni, grzybni i śladów (kanaliki); małe organizmy, np. skoczogonki, oglądamy przez <b>lupę</b>.</li>
+ </ol>
+ <h3><span class="hl-c">Gleba dobra dla roślin</span></h3>
+ <ul><li>zawiera <b>dużo próchnicy</b> (jest ciemna),</li><li>zawiera <b>wodę</b>,</li><li>ma <b>strukturę gruzełkową</b>,</li><li>żyje w niej <b>wiele organizmów</b>.</li></ul>
+ <p><b>Ziemia ogrodnicza</b> ma dużo próchnicy i strukturę gruzełkową.</p>
+ <h3><span class="hl-p">Doświadczenia</span></h3>
+ <ul>
+  <li><b>Ziemia ogrodnicza czy gleba z okolicy?</b> Dwie doniczki – inna jest <u>tylko gleba</u>. Ilość wody, liczba nasion i miejsce muszą być takie same.</li>
+  <li><b>Woda w glebie</b> – rośliny pobierają większość wody z gleby <b>korzeniami</b>. Rzeżucha podlewana rośnie dobrze, niepodlewana – słabo.</li>
+  <li><b>Filtr glebowy</b> – butelka, filtr do kawy, gleba i woda zabarwiona atramentem: woda po przejściu przez glebę jest czystsza – <b>gleba oczyszcza wodę</b>.</li>
+ </ul>`,
+zywe:`
+ <h2>Rośliny i zwierzęta w mojej okolicy</h2>
+ <h3><span class="hl-o">Rośliny w domu</span></h3>
+ <p>Doniczkowe: <b>dracena, fikus, sępolia (fiołek), paprotka, storczyk, zielistka</b>.</p>
+ <p>Korzyści: zdobią pomieszczenia, <b>produkują tlen</b>, <b>nawilżają powietrze</b> (paprotka nawet je <b>oczyszcza</b>), <b>mięta i bazylia</b> to przyprawy, a dbając o rośliny poznajemy przyrodę i uczymy się <b>systematyczności</b>.</p>
+ <p>Przy szkołach rosną np. kasztanowce, brzozy, róże – rośliny przyciągają zwierzęta, które szukają <b>schronienia i pożywienia</b>.</p>
+ <p><b>Tulipany</b> sadzimy jesienią – <b>przed końcem października</b>: cebulki na głębokość <b>15 cm</b>, co 15–20 cm, <b>spiczastą częścią do góry</b>, okrywamy rozdrobnioną korą.</p>
+ <h3><span class="hl-c">Zwierzęta przy ludziach</span></h3>
+ <ul>
+  <li><b>Udomowione</b> dawno temu: kury, kozy, owce, bydło – dawały <b>pożywienie i ubrania</b>.</li>
+  <li><b>Domowe</b>: psy, koty, chomiki, papugi, rybki, gekon lamparci (żyje na gorących pustyniach – w domu w <b>ogrzewanym terrarium</b>). Uczą <b>odpowiedzialności i systematyczności</b>. Każde potrzebuje: <b>pokarmu, wody, schronienia, ruchu</b>, czasem weterynarza.</li>
+ </ul>
+ <div class="tbl-wrap"><table class="tbl"><thead><tr><th colspan="2">Dzicy lokatorzy naszych domów</th></tr></thead><tbody>
+  <tr><th>kątnik i inne pająki</th><td><b>pomagają</b> – polują na muchy i komary</td></tr>
+  <tr><th>rybik cukrowy</th><td>nie szkodzi</td></tr>
+  <tr><th>wołek zbożowy</th><td>niszczy mąkę i kaszę</td></tr>
+  <tr><th>karaczan (karaluch)</th><td>przenosi choroby</td></tr>
+  <tr><th>pluskwa domowa</th><td>bolesne ugryzienia</td></tr>
+  <tr><th>mól włosienniczek</th><td>niszczy ubrania, głównie wełniane</td></tr>
+ </tbody></table></div>
+ <p><b>Nocą</b> w okolicy domów: jeże, lisy, sarny, dziki – <b>nie podchodzimy</b> do nich! Dzikie zwierzęta przychodzą do miast, bo jest tam <b>pokarm</b> (śmietniki, owoce krzewów), <b>kryjówki</b> (piwnice, parki), <b>mniej drapieżników</b> i <b>cieplej zimą</b>.</p>
+ <h3><span class="hl-p">Rozpoznaj po cechach</span></h3>
+ <div class="cols">
+  <div><b>rośliny</b><ul>
+   <li><b>lipa drobnolistna</b> – liście w kształcie serca, owoce ze skrzydełkami</li>
+   <li><b>brzoza brodawkowata</b> – biała kora w czarne plamki, liście trójkątne, zwisające gałęzie</li>
+   <li><b>śnieguliczka biała</b> – białe kuliste owoce przez całą zimę</li>
+   <li><b>róża dzika</b> – kolce, ciemnoczerwone jajowate owoce</li>
+   <li><b>koniczyna biała</b> – liść z trzech części, białe kwiaty</li>
+   <li><b>babka lancetowata</b> – podłużne liście przy ziemi, kłos na długiej łodydze</li></ul></div>
+  <div><b>ptaki</b><ul>
+   <li><b>gawron</b> – czarny z fioletowym połyskiem, jasna plama przy dziobie</li>
+   <li><b>kawka</b> – czarno-szara, siwy tył głowy, krótki dziób</li>
+   <li><b>sroka</b> – czarno-biała, bardzo długi ogon</li>
+   <li><b>szpak</b> – czarny w białe plamki, żółty ostry dziób</li>
+   <li><b>kos (samiec)</b> – cały czarny, żółty dziób i obwódka oczu</li>
+   <li><b>wrona</b> – czarna głowa i skrzydła, szary tułów</li></ul></div>
+  <div><b>owady</b><ul>
+   <li><b>skorek (szczypawka)</b> – długie ciało zakończone szczypcami</li>
+   <li><b>biedronka siedmiokropka</b> – czerwone skrzydła, 7 czarnych kropek</li>
+   <li><b>rusałka pokrzywnik</b> – pomarańczowe skrzydła, na końcach czarne i niebieskie plamki</li></ul></div>
+ </div>`,
+};
+
+/* ================= OCENIANIE ================= */
+const GRADES=[
+ {g:6,name:'celujący',msg:'Bezbłędnie! Mistrzostwo.'},
+ {g:5,name:'bardzo dobry',msg:'Świetnie, prawie wszystko dobrze.'},
+ {g:4,name:'dobry',msg:'Dobra robota. Przejrzyj błędy poniżej.'},
+ {g:3,name:'dostateczny',msg:'Nieźle, ale warto jeszcze powtórzyć notatki.'},
+ {g:2,name:'dopuszczający',msg:'Wróć do nauki i popraw błędy.'},
+ {g:1,name:'niedostateczny',msg:'Przeczytaj notatki jeszcze raz i spróbuj ponownie.'},
+];
+const DEFAULT_SCALE={6:100,5:90,4:70,3:50,2:30};
+function getScale(){const s=store('p5-scale');return s&&s[2]!=null?s:{...DEFAULT_SCALE}}
+function gradeFor(pct){const s=getScale();for(const g of [6,5,4,3,2])if(pct>=s[g]-1e-9)return GRADES.find(x=>x.g===g);return GRADES.find(x=>x.g===1)}
+
+/* ================= PLAN 7 DNI ================= */
+const PLAN=[
+ {topic:'krajobraz',what:'Czym jest krajobraz, krajobraz naturalny i stworzony przez człowieka, wieś a miasto, powiązania w krajobrazie.'},
+ {topic:'teren',what:'Pagórek, wzgórze, góra (50 i 300 m!), dolina, kotlina, równina. Szczyt, stok, podnóże, zbocze, dno.'},
+ {topic:'skaly',what:'Cechy skał, skały luźne, zwięzłe i lite – 8 skał z podręcznika i do czego się ich używa.'},
+ {topic:'gleba',what:'Jak powstaje gleba, składniki ożywione i nieożywione, poziomy glebowe, znaczenie gleby.'},
+ {topic:'badania',what:'Badanie gleby: grubość poziomu próchnicznego, barwa, struktura, uziarnienie, organizmy. Doświadczenia.'},
+ {topic:'zywe',what:'Rośliny i zwierzęta w domu i w okolicy, dzicy lokatorzy domów, rozpoznawanie roślin, ptaków i owadów.'},
+ {topic:null,what:'Próba generalna: sprawdzian z całego działu (25 pytań) bez podpowiedzi. Potem popraw błędy i przejrzyj „Do poprawy”.'},
+];
+const planState=()=>store('p5-plan')||{};
+const getStats=()=>store('p5-stats')||{};
+
+/* ================= STAN ================= */
+const S={view:'plan',topic:'krajobraz',setup:{topics:TOPICS.map(t=>t.id),count:20,instant:true},quiz:null};
+const saved=store('p5-setup');if(saved)Object.assign(S.setup,saved);
+S.setup.topics=S.setup.topics.filter(id=>TOPICS.some(t=>t.id===id));
+const main=document.getElementById('main');
+const TABS={plan:'tab-plan',learn:'tab-learn',test:'tab-test'};
+document.getElementById('tab-plan').onclick=()=>go('plan');
+document.getElementById('tab-learn').onclick=()=>go('learn');
+document.getElementById('tab-test').onclick=()=>go(S.quiz&&!S.quiz.result?'quiz':'setup');
+function go(v){
+  S.view=v;const tab=v==='plan'?'plan':v==='learn'?'learn':'test';
+  Object.entries(TABS).forEach(([k,id])=>document.getElementById(id).setAttribute('aria-current',k===tab));
+  render();window.scrollTo({top:0});
+}
+function render(){({plan:renderPlan,learn:renderLearn,setup:renderSetup,quiz:renderQuiz,results:renderResults})[S.view]()}
+
+/* ================= PLAN ================= */
+function weakTopics(){const st=getStats();return TOPICS.map(t=>({...t,s:st[t.id]})).filter(t=>t.s&&t.s.n>=4&&t.s.ok/t.s.n<0.75).sort((a,b)=>a.s.ok/a.s.n-b.s.ok/b.s.n)}
+function renderPlan(){
+  const ps=planState(),st=getStats(),next=PLAN.findIndex((_,i)=>ps[i]==null),weak=weakTopics();
+  main.innerHTML=`<section class="panel">
+    <h2>7 dni do sprawdzianu</h2>
+    <p>Codziennie jeden temat: przeczytaj notatkę (5 minut), potem zrób test dnia – 14 pytań z tematu dnia i powtórka z poprzednich dni. Po każdym pytaniu od razu zobaczysz, czy jest dobrze, i dlaczego. Siódmego dnia jest próba generalna jak na prawdziwym sprawdzianie.</p>
+    <div class="days">${PLAN.map((d,i)=>{const last=d.topic==null,s=d.topic&&st[d.topic];
+      return `<div class="day ${i===next?'today':''}">
+        <div class="dn">Dzień ${i+1}${ps[i]!=null?`<span class="done" title="ostatnia ocena z testu dnia">${ps[i]}</span>`:''}</div>
+        <b>${last?'Próba generalna':topicName(d.topic)}</b>
+        <div class="what">${d.what}</div>
+        ${!last?`<div class="tl">${TOPICS.find(t=>t.id===d.topic).src}${s?` · dotąd ${Math.round(s.ok/s.n*100)}% dobrych odpowiedzi`:''}</div>`:''}
+        <div class="row">${last?'':`<button class="btn ghost small" data-learn="${d.topic}">Notatka</button>`}<button class="btn small" data-day="${i}">${last?'Próba generalna':'Test dnia'}</button></div>
+      </div>`}).join('')}</div>
+  </section>
+  <section class="panel" style="margin-top:16px">
+    <h2>Do poprawy</h2>
+    ${weak.length?`<p>Tematy, w których jest najwięcej błędów (poniżej 75% dobrych odpowiedzi). Poćwicz je jeszcze raz.</p>
+      <ul class="weak">${weak.map(t=>`<li><span><b>${t.name}</b> – ${Math.round(t.s.ok/t.s.n*100)}% dobrych</span><button class="btn small" data-weak="${t.id}">Poćwicz (10 pytań)</button></li>`).join('')}</ul>`
+      :`<p class="muted">${Object.keys(st).length?'Na razie nie ma słabych tematów – tak trzymaj!':'Tu pojawią się tematy, z którymi jest najtrudniej, gdy zrobisz pierwsze testy.'}</p>`}
+  </section>`;
+  main.querySelectorAll('[data-learn]').forEach(b=>b.onclick=()=>{S.topic=b.dataset.learn;go('learn')});
+  main.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>startDay(+b.dataset.day));
+  main.querySelectorAll('[data-weak]').forEach(b=>b.onclick=()=>launch(pickQs([b.dataset.weak],10),{instant:true,label:'Poćwicz: '+topicName(b.dataset.weak)}));
+}
+function startDay(i){
+  const d=PLAN[i];
+  if(d.topic==null){launch(pickBalanced(TOPICS.map(t=>t.id),25),{instant:false,day:i,label:'Próba generalna'});return}
+  const prev=PLAN.slice(0,i).map(x=>x.topic);
+  const qs=pickQs([d.topic],prev.length?10:14).concat(prev.length?pickBalanced(prev,4):[]);
+  launch(qs,{instant:true,day:i,label:`Dzień ${i+1}: ${topicName(d.topic)}`,keepOrder:true});
+}
+
+/* ================= LOSOWANIE ================= */
+function pickQs(topics,n){return shuffle(BANK.filter(q=>topics.includes(q.topic))).slice(0,n)}
+function pickBalanced(topics,n){
+  const pools=shuffle(topics).map(t=>shuffle(BANK.filter(q=>q.topic===t)));const out=[];let k=0;
+  while(out.length<n&&pools.some(p=>p.length)){const p=pools[k%pools.length];if(p.length)out.push(p.pop());k++}
+  return shuffle(out);
+}
+
+/* ================= NAUKA ================= */
+function renderLearn(){
+  const t=TOPICS.find(x=>x.id===S.topic),i=TOPICS.indexOf(t);
+  main.innerHTML=`<div class="learn">
+    <div class="toc" role="list">${TOPICS.map((x,j)=>`<button role="listitem" data-id="${x.id}" aria-current="${x.id===S.topic}"><span class="n">${j+1}.</span>${x.name}</button>`).join('')}</div>
+    <article class="sheet"><p class="src">${t.src}</p>${NOTES[t.id]}
+      <div class="sheet-actions">
+        <button class="btn" id="test-this">Sprawdź się z tego tematu</button>
+        ${i<TOPICS.length-1?`<button class="btn ghost" id="next-topic">Następny temat</button>`:''}
+      </div>
+    </article></div>`;
+  main.querySelectorAll('.toc button').forEach(b=>b.onclick=()=>{S.topic=b.dataset.id;renderLearn();window.scrollTo({top:0})});
+  document.getElementById('test-this').onclick=()=>launch(pickQs([t.id],12),{instant:true,label:'Sprawdź się: '+t.name});
+  const nx=document.getElementById('next-topic');if(nx)nx.onclick=()=>{S.topic=TOPICS[i+1].id;renderLearn();window.scrollTo({top:0})};
+  learnDiagram('learn-terrain','terrain-say','teren');
+  learnDiagram('learn-soil','soil-say','gleba');
+}
+const SAY={szczyt:'Szczyt – najwyższe miejsce wzniesienia.',stok:'Stok – pochyły bok wzniesienia.',podnoze:'Podnóże – podstawa wzniesienia; od niego mierzymy wysokość.',zbocze:'Zbocze – nachylony bok doliny (zagłębienia).',dno:'Dno doliny – najniższa część; często płynie nim rzeka.',
+  prochniczny:'Poziom próchniczny – najwięcej składników ożywionych, wody i składników dla roślin.',glebsze:'Głębsze poziomy glebowe – im głębiej, tym mniej składników ożywionych.',skala:'Skała – najgłębszy poziom; z niej powstała gleba.'};
+function learnDiagram(boxId,sayId,kind){
+  const box=document.getElementById(boxId);if(!box)return;
+  const draw=k=>{box.innerHTML=HOT[kind].svg({labels:true,states:k?{[k]:'sel'}:{}});bindHot(box,kk=>{document.getElementById(sayId).textContent=SAY[kk];draw(kk);box.querySelector(`[data-k="${kk}"]`).focus()})};
+  draw(null);
+}
+function bindHot(root,onPick){root.querySelectorAll('.hz').forEach(g=>{g.addEventListener('click',()=>onPick(g.dataset.k));g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();onPick(g.dataset.k)}})})}
+
+/* ================= USTAWIENIA TESTU ================= */
+function renderSetup(){
+  const sc=getScale(),hist=store('p5-history')||[],n=BANK.filter(q=>S.setup.topics.includes(q.topic)).length;
+  main.innerHTML=`<section class="panel">
+    <h2>Test: Moja okolica</h2>
+    <p class="sub">Wybierz tematy i liczbę pytań. Każde pytanie to 1 punkt (za częściowo dobrą odpowiedź – pół punktu). Na końcu dostaniesz ocenę.</p>
+    <div class="field"><span class="lbl">Tematy</span>
+      <div class="chips">${TOPICS.map(t=>`<button class="chip" data-id="${t.id}" aria-pressed="${S.setup.topics.includes(t.id)}">${t.name}</button>`).join('')}</div></div>
+    <div class="field"><span class="lbl">Liczba pytań</span>
+      <div class="chips">${[10,20,30].map(c=>`<button class="chip" data-count="${c}" aria-pressed="${S.setup.count===c}">${c}</button>`).join('')}</div></div>
+    <div class="field"><label class="toggle"><input type="checkbox" id="instant" ${S.setup.instant?'checked':''}> Pokazuj od razu, czy odpowiedź jest dobra (tryb nauki)</label>
+      <p class="qhint" style="margin:6px 0 0 30px">Wyłącz, żeby pisać jak na prawdziwym sprawdzianie – wyniki zobaczysz na końcu.</p></div>
+    <button class="btn" id="start" ${S.setup.topics.length?'':'disabled'}>Rozpocznij test</button>
+    <details><summary>Skala ocen (możesz dopasować do swojej szkoły)</summary>
+      <table class="scale"><tbody>
+      ${[6,5,4,3,2].map(g=>`<tr><td><b>${g}</b></td><td>${GRADES.find(x=>x.g===g).name}</td><td>od <input type="number" min="0" max="100" data-g="${g}" value="${sc[g]}"> %</td></tr>`).join('')}
+      <tr><td><b>1</b></td><td>niedostateczny</td><td>poniżej ${sc[2]} %</td></tr></tbody></table>
+      <button class="btn ghost" id="reset-scale" style="margin-top:10px;padding:6px 14px">Przywróć domyślną skalę</button>
+      <button class="btn ghost" id="reset-all" style="margin-top:10px;padding:6px 14px">Wyczyść postępy i wyniki</button>
+    </details>
+    ${hist.length?`<div class="history"><b>Ostatnie wyniki</b><ol>${hist.slice(0,8).map(h=>`<li>${new Date(h.d).toLocaleDateString('pl-PL')} – ${esc(h.label||'test')}: ocena <b>${h.g}</b> (${fmt(h.pts)}/${h.max} pkt, ${Math.round(h.pct)}%)</li>`).join('')}</ol></div>`:''}
+  </section>`;
+  main.querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>{const id=b.dataset.id,ts=S.setup.topics;S.setup.topics=ts.includes(id)?ts.filter(x=>x!==id):[...ts,id];store('p5-setup',S.setup);renderSetup()});
+  main.querySelectorAll('[data-count]').forEach(b=>b.onclick=()=>{S.setup.count=+b.dataset.count;store('p5-setup',S.setup);renderSetup()});
+  document.getElementById('instant').onchange=e=>{S.setup.instant=e.target.checked;store('p5-setup',S.setup)};
+  document.getElementById('start').onclick=()=>launch(pickBalanced(S.setup.topics,Math.min(S.setup.count,n)),{instant:S.setup.instant,label:'Test własny'});
+  main.querySelectorAll('.scale input').forEach(inp=>inp.onchange=()=>{const s=getScale();s[inp.dataset.g]=Math.max(0,Math.min(100,+inp.value||0));store('p5-scale',s);renderSetup();main.querySelector('details').open=true});
+  document.getElementById('reset-scale').onclick=()=>{store('p5-scale',{...DEFAULT_SCALE});renderSetup();main.querySelector('details').open=true};
+  document.getElementById('reset-all').onclick=()=>{if(confirm('Usunąć oceny z planu, statystyki tematów i historię wyników?')){['p5-plan','p5-stats','p5-history'].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});renderSetup()}};
+}
+
+/* ================= QUIZ ================= */
+function instantiate(src){
+  let q;
+  for(let tries=0;tries<8;tries++){q=src.t==='gen'?src.make():{...src};if(!instantiate.seen||!instantiate.seen.has(q.q))break}
+  if(instantiate.seen)instantiate.seen.add(q.q);
+  q.src=src;q.topic=src.topic;q.user=null;q.checked=false;q.score=0;
+  if(q.t==='single')q.opts=shuffle(q.opts.map((x,i)=>({x,ok:i===0})));
+  if(q.t==='tf')q.opts=[{x:'Prawda',ok:q.a===true},{x:'Fałsz',ok:q.a===false}];
+  if(q.t==='multi'){q.opts=shuffle(q.ok.map(x=>({x,ok:true})).concat(q.no.map(x=>({x,ok:false}))));q.user=new Set()}
+  if(q.t==='sort')q.user=q.items.map(()=>null);
+  if(q.t==='order'){let c;do{c=shuffle(q.items.map((_,i)=>i))}while(c.every((v,i)=>v===i));q.user=c}
+  return q;
+}
+function launch(srcs,opt){
+  instantiate.seen=new Set();
+  const qs=(opt.keepOrder?srcs:shuffle(srcs)).map(instantiate);instantiate.seen=null;
+  S.quiz={qs,i:0,instant:opt.instant,day:opt.day,label:opt.label};go('quiz');
+}
+function answered(q){
+  if(q.t==='multi')return q.user.size>0;
+  if(q.t==='order')return true;
+  if(q.t==='sort')return q.user.every(v=>v!==null);
+  return q.user!==null;
+}
+function grade1(q){
+  if(q.t==='single'||q.t==='tf'){q.score=q.opts[q.user].ok?1:0;q.userText=q.opts[q.user].x;q.correctText=q.opts.find(o=>o.ok).x}
+  else if(q.t==='multi'){const total=q.opts.filter(o=>o.ok).length;let good=0,bad=0;q.user.forEach(i=>q.opts[i].ok?good++:bad++);
+    q.score=(bad===0&&good===total)?1:(bad===0&&good>=total/2)?0.5:0;
+    q.userText=[...q.user].map(i=>q.opts[i].x).join(', ');q.correctText=q.opts.filter(o=>o.ok).map(o=>o.x).join(', ')}
+  else if(q.t==='order'){const right=q.user.filter((v,i)=>v===i).length;q.score=right===q.items.length?1:right>=3?0.5:0;
+    q.userText=q.user.map((v,i)=>`${i+1}. ${q.items[v]}`).join('; ');q.correctText=q.items.map((x,i)=>`${i+1}. ${x}`).join('; ')}
+  else if(q.t==='sort'){const right=q.items.filter((it,i)=>q.user[i]===it.c).length,n=q.items.length;q.score=right===n?1:right>=Math.ceil(n*0.7)?0.5:0;
+    q.userText=q.items.map((it,i)=>`${it.x} → ${q.cats[q.user[i]]}`).join('; ');q.correctText=q.items.map(it=>`${it.x} → ${q.cats[it.c]}`).join('; ')}
+  else if(q.t==='hot'){const Z=HOT[q.hot].Z;q.score=q.user===q.target?1:0;q.userText=Z[q.user].n;q.correctText=Z[q.target].n}
+  q.checked=true;
+}
+const HINT={single:'Wybierz jedną odpowiedź.',tf:'Prawda czy fałsz?',multi:'Zaznacz wszystkie poprawne odpowiedzi.',order:'Przesuwaj strzałkami, aż kolejność będzie dobra.',sort:'Przy każdym elemencie wybierz właściwą grupę.',hot:'Kliknij właściwe miejsce na rysunku.'};
+function renderQuiz(){
+  const Z=S.quiz,q=Z.qs[Z.i],last=Z.i===Z.qs.length-1,locked=q.checked&&Z.instant;
+  let area='';
+  if(q.t==='single'||q.t==='tf'){
+    area=`<div class="opts ${q.t==='tf'?'tf':''}">${q.opts.map((o,i)=>{let c='';if(locked){if(o.ok)c='ok';else if(q.user===i)c='no'}else if(q.user===i)c='sel';
+      const mark=locked?(o.ok?'✓':(q.user===i?'✗':'')):(q.user===i?'●':'');
+      return `<button class="opt round ${c}" data-i="${i}" ${locked?'disabled':''}><span class="box">${mark}</span>${esc(o.x)}</button>`}).join('')}</div>`;
+  }else if(q.t==='multi'){
+    area=`<div class="opts">${q.opts.map((o,i)=>{const on=q.user.has(i);let c='';if(locked){if(on)c=o.ok?'ok':'no';else if(o.ok)c='ok'}else if(on)c='sel';
+      const mark=locked?(o.ok?'✓':(on?'✗':'')):(on?'✓':'');
+      return `<button class="opt ${c}" data-i="${i}" aria-pressed="${on}" ${locked?'disabled':''}><span class="box">${mark}</span>${esc(o.x)}${locked&&o.ok&&!on?' <small>(pominięte)</small>':''}</button>`}).join('')}</div>`;
+  }else if(q.t==='order'){
+    area=`<ol class="order">${q.user.map((v,pos)=>{const c=locked?(v===pos?'ok':'no'):'';
+      return `<li class="${c}"><span class="pos">${pos+1}</span><span class="txt">${esc(q.items[v])}</span>${locked?'':`<span class="mv"><button data-up="${pos}" aria-label="Przesuń wyżej" ${pos===0?'disabled':''}>▲</button><button data-down="${pos}" aria-label="Przesuń niżej" ${pos===q.user.length-1?'disabled':''}>▼</button></span>`}</li>`}).join('')}</ol>`;
+  }else if(q.t==='sort'){
+    area=`<ul class="sort">${q.items.map((it,i)=>{const rowc=locked?(q.user[i]===it.c?'ok':'no'):'';
+      return `<li class="${rowc}"><span class="txt">${esc(it.x)}</span><span class="cats">${q.cats.map((c,ci)=>{let cc='';if(locked){if(ci===it.c)cc='ok';else if(q.user[i]===ci)cc='no'}else if(q.user[i]===ci)cc='sel';
+        return `<button class="cat ${cc}" data-si="${i}" data-ci="${ci}" aria-pressed="${q.user[i]===ci}" ${locked?'disabled':''}>${esc(c)}</button>`}).join('')}</span></li>`}).join('')}</ul>`;
+  }else if(q.t==='hot'){
+    const st={};if(locked){st[q.target]='ok';if(q.user!==q.target)st[q.user]='no'}else if(q.user)st[q.user]='sel';
+    area=`<div class="hot-q">${HOT[q.hot].svg({labels:locked,states:st})}</div>`;
+  }
+  let fb='';
+  if(locked){const cls=q.score===1?'ok':q.score>0?'half':'no',head=q.score===1?'✓ Dobrze! +1 pkt':q.score>0?'½ Częściowo dobrze, +0,5 pkt':'✗ Niestety źle';
+    fb=`<div class="feedback ${cls}" role="status"><b>${head}</b>${q.score<1?`Poprawnie: ${esc(q.correctText)}<br>`:''}${esc(q.why)}</div>`}
+  const pct=((Z.i+(q.checked?1:0))/Z.qs.length)*100;
+  const btnLabel=Z.instant&&!q.checked?'Sprawdź':(last?'Zakończ test':'Dalej');
+  main.innerHTML=`<section class="panel">
+    ${Z.label?`<p class="qlabel">${esc(Z.label)}${Z.instant?'':' · bez podpowiedzi'}</p>`:''}
+    <div class="progress"><i style="width:${pct}%"></i></div>
+    <div class="qmeta"><span>Pytanie ${Z.i+1} z ${Z.qs.length}</span><span>${topicName(q.topic)}</span></div>
+    <p class="qtext">${esc(q.q)}</p><p class="qhint">${HINT[q.t]}</p>
+    ${area}${fb}
+    <div class="qactions"><button class="btn ghost" id="quit">Przerwij</button><button class="btn" id="next" ${answered(q)?'':'disabled'}>${btnLabel}</button></div>
+  </section>`;
+  if(!locked){
+    main.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(q.t==='multi'){q.user.has(i)?q.user.delete(i):q.user.add(i)}else q.user=i;renderQuiz();const f=main.querySelector(`.opt[data-i="${i}"]`);if(f)f.focus()});
+    main.querySelectorAll('[data-up]').forEach(b=>b.onclick=()=>{const p=+b.dataset.up;[q.user[p-1],q.user[p]]=[q.user[p],q.user[p-1]];renderQuiz();const f=main.querySelector(`[data-up="${p-1}"]`)||main.querySelector(`[data-down="${p-1}"]`);if(f)f.focus()});
+    main.querySelectorAll('[data-down]').forEach(b=>b.onclick=()=>{const p=+b.dataset.down;[q.user[p+1],q.user[p]]=[q.user[p],q.user[p+1]];renderQuiz();const f=main.querySelector(`[data-down="${p+1}"]`)||main.querySelector(`[data-up="${p+1}"]`);if(f)f.focus()});
+    main.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{const i=+b.dataset.si,ci=+b.dataset.ci;q.user[i]=ci;renderQuiz();const f=main.querySelector(`.cat[data-si="${i}"][data-ci="${ci}"]`);if(f)f.focus()});
+    const hq=main.querySelector('.hot-q');if(hq)bindHot(hq,k=>{q.user=k;renderQuiz();const g=main.querySelector(`.hz[data-k="${k}"]`);if(g)g.focus()});
+  }
+  document.getElementById('next').onclick=nextStep;
+  document.getElementById('quit').onclick=()=>{if(confirm('Przerwać test? Wynik nie zostanie zapisany.')){S.quiz=null;go(Z.day!=null?'plan':'setup')}};
+}
+function nextStep(){
+  const Z=S.quiz,q=Z.qs[Z.i];if(!answered(q))return;
+  if(Z.instant&&!q.checked){grade1(q);renderQuiz();document.getElementById('next').focus();return}
+  if(!q.checked)grade1(q);
+  if(Z.i<Z.qs.length-1){Z.i++;renderQuiz();window.scrollTo({top:0})}else finish();
+}
+function finish(){
+  const Z=S.quiz,pts=Z.qs.reduce((a,q)=>a+q.score,0),max=Z.qs.length,pct=pts/max*100,G=gradeFor(pct);
+  Z.result={pts,max,pct,G};
+  if(!Z.fix){
+    const h=store('p5-history')||[];h.unshift({d:Date.now(),pts,max,pct,g:G.g,label:Z.label});store('p5-history',h.slice(0,30));
+    if(Z.day!=null){const ps=planState();ps[Z.day]=G.g;store('p5-plan',ps)}
+  }
+  const st=getStats();Z.qs.forEach(q=>{const s=st[q.topic]||(st[q.topic]={ok:0,n:0});s.n++;s.ok+=q.score});store('p5-stats',st);
+  go('results');
+}
+
+/* ================= WYNIKI ================= */
+function renderResults(){
+  const Z=S.quiz,{pts,max,pct,G}=Z.result,wrong=Z.qs.filter(q=>q.score<1);
+  const per={};Z.qs.forEach(q=>{const p=per[q.topic]||(per[q.topic]={ok:0,n:0});p.n++;p.ok+=q.score});
+  main.innerHTML=`<section class="panel">
+    ${Z.label?`<p class="qlabel">${esc(Z.label)}${Z.fix?' · poprawa błędów (nie liczy się do oceny dnia)':''}</p>`:''}
+    <div class="result-top">
+      <div class="grade" aria-label="Ocena ${G.g}"><svg viewBox="0 0 150 150" aria-hidden="true"><path d="M78 14 C 30 10, 10 50, 16 88 C 22 128, 70 142, 108 128 C 142 114, 146 62, 124 34 C 108 14, 80 8, 56 18"/></svg><div class="digit">${G.g}</div></div>
+      <div><p class="gname">${G.name}</p><p class="gsum"><b>${fmt(pts)}</b> z ${max} pkt, czyli ${Math.round(pct)}%</p><p class="gmsg">${G.msg}</p></div>
+    </div>
+    ${Object.keys(per).length>1?`<ul class="per">${Object.entries(per).map(([t,p])=>`<li><span>${topicName(t)}</span><span class="bar"><i style="width:${p.ok/p.n*100}%"></i></span><b>${fmt(p.ok)}/${p.n}</b></li>`).join('')}</ul>`:''}
+    <div class="res-actions">
+      ${wrong.length?`<button class="btn" id="fix">Popraw błędy (${wrong.length})</button>`:''}
+      <button class="btn ${wrong.length?'ghost':''}" id="toplan">Wróć do planu</button>
+      <button class="btn ghost" id="tolearn">Notatki</button>
+    </div>
+    <ol class="review">${Z.qs.map((q,i)=>{const cls=q.score===1?'ok':q.score>0?'half':'no',m=q.score===1?'✓':q.score>0?'½':'✗';
+      return `<li><div><span class="mark ${cls}">${m}</span><b>${i+1}.</b> ${esc(q.q)}</div>
+        ${q.score<1?`<p class="row">Twoja odpowiedź: ${esc(q.userText)}</p><p class="row">Poprawna: <b>${esc(q.correctText)}</b></p><p class="why">${esc(q.why)}</p>`:''}</li>`}).join('')}</ol>
+  </section>`;
+  const fx=document.getElementById('fix');
+  if(fx)fx.onclick=()=>{instantiate.seen=null;S.quiz={qs:shuffle(wrong.map(q=>{const n=instantiate(q.src);return q.src.t==='gen'?fixClone(q):n})),i:0,instant:true,fix:true,label:(Z.label||'Test')};go('quiz')};
+  document.getElementById('toplan').onclick=()=>{S.quiz=null;go('plan')};
+  document.getElementById('tolearn').onclick=()=>{const t=wrong[0]?wrong[0].topic:S.topic;S.topic=t;S.quiz=null;go('learn')};
+}
+// przy poprawie błędów pytanie generowane wraca w tej samej postaci (z nowym przetasowaniem)
+function fixClone(q){
+  const c={...q,user:null,checked:false,score:0};
+  if(c.t==='single')c.opts=shuffle(q.opts);
+  if(c.t==='multi'){c.opts=shuffle(q.opts);c.user=new Set()}
+  if(c.t==='sort'){c.items=shuffle(q.items);c.user=c.items.map(()=>null)}
+  if(c.t==='order'){let o;do{o=shuffle(q.items.map((_,i)=>i))}while(o.every((v,i)=>v===i));c.user=o}
+  return c;
+}
+
+render();
+</script>
+</body>
+</html>
